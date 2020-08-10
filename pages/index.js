@@ -6,11 +6,11 @@ export default function Home() {
     <div>
       <Head>
         <title>Create Next App</title>
-        <link rel='icon' href='/favicon.ico' />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <Button>Hello</Button>
+        <Button variant="outlined">Hello</Button>
       </main>
     </div>
   );
