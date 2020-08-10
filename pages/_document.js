@@ -2,9 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react';
-import Document, {
-  Html, Head, Main, NextScript,
-} from 'next/document';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import theme from '../src/theme';
 
@@ -15,6 +13,7 @@ export default class MyDocument extends Document {
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
+          <link rel="preload" href="/fonts/montserrat-v14-latin-regular.woff2" as="font" crossOrigin="" />
         </Head>
         <body>
           <Main />
