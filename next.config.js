@@ -1,9 +1,3 @@
 // next.config.js
-
-// https://github.com/cyrilwanner/next-optimized-images
-const withOptimizedImages = require('next-optimized-images');
-
-module.exports = withOptimizedImages({
-  /* config for next-optimized-images */
-  // your config for other plugins or the general next.js here...
-});
+const withImages = require('next-images');
+module.exports = withImages();
