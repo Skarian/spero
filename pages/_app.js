@@ -8,6 +8,7 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
+import Navbar from '../components/Navbar';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -27,9 +28,6 @@ export default function MyApp(props) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Component {...pageProps} />
         <style jsx global>{`
           /* montserrat-regular - latin */
           @font-face {
@@ -45,6 +43,10 @@ export default function MyApp(props) {
               /* Safari, Android, iOS */ url('../fonts/montserrat-v14-latin-regular.svg#Montserrat') format('svg'); /* Legacy iOS */
           }
         `}</style>
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+        <Navbar />
+        <Component {...pageProps} />
       </ThemeProvider>
     </>
   );

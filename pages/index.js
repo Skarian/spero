@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { Button, Container, Grid as GridBase } from '@material-ui/core';
 import styled from 'styled-components';
-import Navbar from '../components/Navbar';
 
 const wireframes = false;
 
@@ -19,7 +18,6 @@ export default function Home() {
       </Head>
 
       <main>
-        <Navbar />
         <Container maxWidth="lg">
           <Grid container direction="row" alignContent="center" alignItems="center" justify="center">
             <Grid item>
