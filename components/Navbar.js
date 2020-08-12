@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AppBar as MuiAppBar,
   Toolbar as MuiToolbar,
   IconButton,
-  Button as MuiButton,
+  Button,
   ButtonGroup,
   Drawer,
   List,
@@ -12,7 +12,6 @@ import {
   ListItemText,
   Hidden,
   Container,
-  Typography,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
@@ -21,6 +20,7 @@ import FindInPageIcon from '@material-ui/icons/FindInPage';
 import CreateIcon from '@material-ui/icons/Create';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { useViewportScroll } from 'framer-motion';
 import LogoImg from '../public/images/logo-light.png';
 
 const Root = styled.div`
@@ -28,14 +28,13 @@ const Root = styled.div`
 `;
 
 const AppBar = styled(MuiAppBar)`
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.1), 0px 4px 5px 0px rgba(0, 0, 0, 0.07),
-    0px 1px 10px 0px rgba(0, 0, 0, 0.06);
+  &.MuiPaper-elevation1 {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const Toolbar = styled(MuiToolbar)`
-  padding-left: 0;
-  padding-right: 0;
-  min-height: 72px;
+  height: 72px;
   display: flex;
   justify-content: space-between;
 `;
@@ -43,6 +42,9 @@ const Toolbar = styled(MuiToolbar)`
 const Logo = styled.img`
   height: 36px;
   width: auto;
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const MenuButton = styled(IconButton)`
@@ -53,10 +55,36 @@ const MenuButton = styled(IconButton)`
 const btnGroupStyle = {
   borderRight: 'none',
   textTransform: 'none',
+  backgroundColor: 'transparent',
 };
+
+const MenuText = styled.h1`
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #000;
+  opacity: 0.5;
+  &:hover {
+    transition: opacity 0.14159s;
+    transition-property: opacity;
+    transition-duration: 0.14159s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+    opacity: 0.7;
+  }
+`;
 
 // Navbar Component Initialization | Default Export
 const Navbar = () => {
+  const { scrollY } = useViewportScroll();
+
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  useEffect(() => {
+    scrollY.onChange((y) => {
+      setIsScrolling(y > 1 ? true : false);
+    });
+  });
+
   // Drawer State Hook
   const [drawer, setDrawer] = useState(false);
 
@@ -84,22 +112,26 @@ const Navbar = () => {
 
   return (
     <Root>
-      <AppBar position="fixed" color="inherit">
+      <AppBar position="fixed" color="inherit" elevation={isScrolling ? 1 : 0}>
         <Container maxWidth="lg">
           <Toolbar>
             <Drawer anchor="top" open={drawer} onClose={() => setDrawer(false)}>
               {sideDrawer}
             </Drawer>
 
-            <Logo src={LogoImg} />
+            <Link href="/">
+              <a>
+                <Logo src={LogoImg} />
+              </a>
+            </Link>
             <Hidden xsDown>
-              <ButtonGroup variant="text" orientation="horizontal">
+              <ButtonGroup disableRipple variant="text" orientation="horizontal">
                 {pages.map((page) => (
-                  <MuiButton key={page[0]} style={btnGroupStyle}>
+                  <Button disableFocusRipple key={page[0]} style={btnGroupStyle}>
                     <Link href={`${page[3]}`}>
-                      <Typography variant="body1">{page[1]}</Typography>
+                      <MenuText>{page[1]}</MenuText>
                     </Link>
-                  </MuiButton>
+                  </Button>
                 ))}
               </ButtonGroup>
             </Hidden>
