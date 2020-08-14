@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import {
   AppBar as MuiAppBar,
@@ -24,7 +25,7 @@ import { useViewportScroll } from 'framer-motion';
 import LogoImg from '../public/images/logo-light.png';
 
 const Root = styled.div`
-  margin-bottom: 72px;
+  padding-bottom: 72px;
 `;
 
 const AppBar = styled(MuiAppBar)`
@@ -81,7 +82,7 @@ const Navbar = () => {
 
   useEffect(() => {
     scrollY.onChange((y) => {
-      setIsScrolling(y > 1 ? true : false);
+      setIsScrolling(y > 1);
     });
   });
 

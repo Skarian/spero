@@ -1,0 +1,24 @@
+state = {
+  1: {
+    selectedOptionContent: 'Myself'
+    selectedOptionID: 2
+  }
+}
+
+options = {
+  questionID: 1,
+  options:[
+    {
+      optionID: 1,
+      optionContent: 'Myself'
+    }
+    {
+      optionID: 2,
+      optionContent: 'Yourself'
+    }
+    {
+      optionID: 3,
+      optionContent: 'Friend'
+    }
+  ]
+}

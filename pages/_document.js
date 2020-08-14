@@ -2,7 +2,7 @@ import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import { ServerStyleSheets } from '@material-ui/styles';
-import theme from '../src/theme';
+import theme from '../utils/theme';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -13,6 +13,7 @@ class MyDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
+          // eslint-disable-next-line max-len
           enhanceApp: (App) => (props) =>
             styledComponentsSheet.collectStyles(materialSheets.collect(<App {...props} />)),
         });
@@ -20,11 +21,11 @@ class MyDocument extends Document {
       return {
         ...initialProps,
         styles: (
-          <React.Fragment>
+          <>
             {initialProps.styles}
             {materialSheets.getStyleElement()}
             {styledComponentsSheet.getStyleElement()}
-          </React.Fragment>
+          </>
         ),
       };
     } finally {
@@ -38,7 +39,12 @@ class MyDocument extends Document {
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
-          <link rel="preload" href="/fonts/montserrat-v14-latin-regular.woff2" as="font" crossOrigin="" />
+          <link
+            rel="preload"
+            href="/fonts/montserrat-v14-latin-regular.woff2"
+            as="font"
+            crossOrigin=""
+          />
         </Head>
         <body>
           <Main />
