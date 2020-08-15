@@ -11,6 +11,7 @@ import { ApolloProvider } from '@apollo/client';
 import theme from '../utils/theme';
 import Navbar from '../components/Navbar';
 import { useApollo } from '../utils/apolloClient';
+import { StoreProvider } from '../context/StoreContext';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -54,8 +55,10 @@ export default function MyApp(props) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <ApolloProvider client={apolloClient}>
-          <Navbar />
-          <Component {...pageProps} />
+          <StoreProvider>
+            <Navbar />
+            <Component {...pageProps} />
+          </StoreProvider>
         </ApolloProvider>
       </ThemeProvider>
     </>

@@ -41,11 +41,18 @@ const CheckIcon = styled(CheckIconBase)`
   justify-self: flex-end;
 `;
 
-const SingleSelect = ({
-  children, isSelected, stateHandler, questionID, option,
-}) => (
+const SingleSelect = ({ children, isSelected, stateHandler, questionID, option }) => (
   <SingleSelectBox
     className={isSelected ? 'selected' : 'none'}
+    onTouchStart={() => {
+      stateHandler((prevState) => ({
+        ...prevState,
+        [questionID]: {
+          selectedOptionContent: option.content,
+          selectedOptionID: option.id,
+        },
+      }));
+    }}
     onClick={() => {
       stateHandler((prevState) => ({
         ...prevState,
