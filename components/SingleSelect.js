@@ -3,7 +3,7 @@ import CheckIconBase from '@material-ui/icons/Check';
 import { motion } from 'framer-motion';
 import { Up, Down } from '../utils/breakpoints';
 
-const SingleSelectBox = styled.div`
+const SingleSelectBox = styled.button`
   margin-bottom: 8px;
   background-color: rgba(39, 39, 39, 0.1);
   box-shadow: rgba(39, 39, 39, 0.6) 0px 0px 0px 1px inset;
@@ -17,6 +17,11 @@ const SingleSelectBox = styled.div`
   text-align: center;
   display: flex;
   justify-content: space-between;
+  background-color: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
   ${Down.lg`
   width: 60vw;
 `}
@@ -43,7 +48,6 @@ const CheckIcon = styled(CheckIconBase)`
 
 const SingleSelect = ({ children, isSelected, stateHandler, questionID, option }) => (
   <SingleSelectBox
-    style={{ cursor: 'pointer' }}
     className={isSelected ? 'selected' : 'none'}
     onTouchStart={() => {
       stateHandler((prevState) => ({
