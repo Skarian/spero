@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import {
-  Container, Grid as GridBase, Button as ButtonBase, LinearProgress,
+  Container,
+  Grid as GridBase,
+  Button as ButtonBase,
+  LinearProgress,
 } from '@material-ui/core';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -42,7 +45,6 @@ const QuestionGrid = styled(GridBase)`
 
 const Hero = styled.div`
   background-color: #f0f5ff;
-  height: 80vh;
 `;
 
 const NextButton = styled(ButtonBase)`
@@ -61,9 +63,7 @@ const Home = () => {
     customization: false,
     details: false,
   });
-  const {
-    type, customBox, customization, details,
-  } = currentQuestion;
+  const { type, customBox, customization, details } = currentQuestion;
 
   const [selections, setSelections] = useState({
     one: {
@@ -92,7 +92,7 @@ const Home = () => {
       <main>
         <Hero>
           <Container maxWidth="lg" style={{ height: '100%' }}>
-            <MainGrid container item alignContent="center">
+            <MainGrid container item alignContent="center" spacing={3}>
               <ProgressGrid container item>
                 <ProgressBar value={10} />
               </ProgressGrid>
@@ -105,7 +105,11 @@ const Home = () => {
                       exit={{ opacity: 0, x: -1000 }}
                       key={1}
                     >
-                      <OrderTypeQuestion questionID="one" stateHandler={setSelections} state={selections} />
+                      <OrderTypeQuestion
+                        questionID="one"
+                        stateHandler={setSelections}
+                        state={selections}
+                      />
                     </motion.div>
                   )}
                   {customBox && (
@@ -115,7 +119,11 @@ const Home = () => {
                       exit={{ opacity: 0, x: -1000 }}
                       key={2}
                     >
-                      <CustomBoxQuestion questionID="two" stateHandler={setSelections} state={selections} />
+                      <CustomBoxQuestion
+                        questionID="two"
+                        stateHandler={setSelections}
+                        state={selections}
+                      />
                     </motion.div>
                   )}
                 </AnimatePresence>

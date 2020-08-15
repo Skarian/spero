@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import CheckIconBase from '@material-ui/icons/Check';
 import { motion } from 'framer-motion';
 import { Up, Down } from '../utils/breakpoints';
+import { Button } from '@material-ui/core';
 
-const SingleSelectBox = styled.button`
+const SingleSelectBox = styled.div`
   margin-bottom: 8px;
   background-color: rgba(39, 39, 39, 0.1);
   box-shadow: rgba(39, 39, 39, 0.6) 0px 0px 0px 1px inset;
@@ -17,8 +18,7 @@ const SingleSelectBox = styled.button`
   text-align: center;
   display: flex;
   justify-content: space-between;
-  background-color: transparent;
-  border: none;
+  border: hidden;
   font-family: inherit;
   font-size: inherit;
   outline: none;
