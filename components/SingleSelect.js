@@ -43,6 +43,7 @@ const CheckIcon = styled(CheckIconBase)`
 
 const SingleSelect = ({ children, isSelected, stateHandler, questionID, option }) => (
   <SingleSelectBox
+    style={{ cursor: 'pointer' }}
     className={isSelected ? 'selected' : 'none'}
     onTouchStart={() => {
       stateHandler((prevState) => ({
