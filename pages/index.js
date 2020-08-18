@@ -2,10 +2,10 @@ import Head from 'next/head';
 import { Grid as GridBase, Typography, Button as ButtonBase } from '@material-ui/core';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
 import CustomBoxImg from '../assets/Customers.png';
 import PremadeBoxImg from '../assets/Employees.png';
 import { Down } from '../utils/breakpoints';
-import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 
 const Home = () => {
@@ -18,7 +18,7 @@ const Home = () => {
   `;
   const PremadeBoxHero = styled(motion.div)`
     background-color: #ffdd94;
-    border-radius: 10%;
+    border-radius: 50px;
     border: ${wireframes ? '1px solid red' : 'none'};
     width: 40vw;
     padding-left: 40px;
@@ -30,7 +30,7 @@ const Home = () => {
   `;
   const CustomBoxHero = styled(motion.div)`
     background-color: #f0eeeb;
-    border-radius: 10%;
+    border-radius: 50px;
     border: ${wireframes ? '1px solid red' : 'none'};
     width: 40vw;
     padding-left: 40px;
@@ -70,8 +70,11 @@ const Home = () => {
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-    ${Down.md`
+    ${Down.lg`
       height: 200px
+    `}
+    ${Down.lg`
+      height: 175px
     `}
   `;
   const PillButtonGray = styled(ButtonBase)`
