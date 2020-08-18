@@ -11,12 +11,10 @@ class MyDocument extends Document {
     const originalRenderPage = ctx.renderPage;
 
     try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          // eslint-disable-next-line max-len
-          enhanceApp: (App) => (props) =>
-            styledComponentsSheet.collectStyles(materialSheets.collect(<App {...props} />)),
-        });
+      ctx.renderPage = () => originalRenderPage({
+        // eslint-disable-next-line max-len
+        enhanceApp: (App) => (props) => styledComponentsSheet.collectStyles(materialSheets.collect(<App {...props} />)),
+      });
       const initialProps = await Document.getInitialProps(ctx);
       return {
         ...initialProps,

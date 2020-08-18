@@ -63,7 +63,9 @@ const Home = () => {
     customization: false,
     details: false,
   });
-  const { type, customBox, customization, details } = currentQuestion;
+  const {
+    type, customBox, customization, details,
+  } = currentQuestion;
 
   const [selections, setSelections] = useState({
     one: {

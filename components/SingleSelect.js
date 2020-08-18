@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import CheckIconBase from '@material-ui/icons/Check';
 import { motion } from 'framer-motion';
-import { Up, Down } from '../utils/breakpoints';
 import { Button } from '@material-ui/core';
+import { Up, Down } from '../utils/breakpoints';
 
 const SingleSelectBox = styled.div`
   margin-bottom: 8px;
@@ -46,7 +46,9 @@ const CheckIcon = styled(CheckIconBase)`
   justify-self: flex-end;
 `;
 
-const SingleSelect = ({ children, isSelected, stateHandler, questionID, option }) => (
+const SingleSelect = ({
+  children, isSelected, stateHandler, questionID, option,
+}) => (
   <SingleSelectBox
     className={isSelected ? 'selected' : 'none'}
     onTouchStart={() => {
