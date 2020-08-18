@@ -1,19 +1,16 @@
 import Head from 'next/head';
-import { useContext, useEffect } from 'react';
-import { Container, Grid as GridBase, Typography, Button as ButtonBase } from '@material-ui/core';
+import { Grid as GridBase, Typography, Button as ButtonBase } from '@material-ui/core';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { StoreContext } from '../context/StoreContext';
 import CustomBoxImg from '../assets/Customers.png';
 import PremadeBoxImg from '../assets/Employees.png';
 import { Down } from '../utils/breakpoints';
 import { useRouter } from 'next/router';
+import Layout from '../components/Layout';
 
 const Home = () => {
   // Turns wireframes for grids on and off for debugging layout
   const wireframes = false;
-  // StoreContext Hook
-  const { isCartOpen, client, addProductToCart } = useContext(StoreContext);
 
   // Styled-Components
   const MainGrid = styled(GridBase)`
@@ -43,7 +40,6 @@ const Home = () => {
       max-width: 500px;
     `}
   `;
-
   const Title = styled(Typography)`
     padding-top: 75px;
     padding-bottom: 20px;
@@ -51,7 +47,6 @@ const Home = () => {
       font-weight: 1000;
     }
   `;
-
   const Description = styled(Typography)`
     padding-top: 20px;
     padding-bottom: 50px;
@@ -69,7 +64,7 @@ const Home = () => {
     height: 100%;
     width: 80%;
   `;
-  const BoxImage = styled.img`
+  const BoxImage = styled(motion.img)`
     height: 300px;
     width: auto;
     -moz-user-select: none;
@@ -112,6 +107,7 @@ const Home = () => {
       font-weight: 700;
     }
   `;
+
   const router = useRouter();
 
   const easing = [0.6, -0.05, 0.01, 0.99];
@@ -131,6 +127,14 @@ const Home = () => {
     },
   };
 
+  const stagger = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
   return (
     <div>
       <Head>
@@ -138,60 +142,75 @@ const Home = () => {
         <link rel="icon" href="../assets/favicon.ico" />
       </Head>
       <main>
-        {fadeInUp !== undefined && (
-          <motion.div initial="initial" animate="animate" exit={{ opacity: 0 }}>
-            <Container maxWidth="lg">
-              <MainGrid container direction="row" spacing={4} alignItems="center">
-                <Grid container item xs={12} md={6} justify="center">
-                  <PremadeBoxHero whileHover={{ scale: 1.05 }} variants={fadeInUp}>
-                    <InnerGrid
-                      container
-                      item
-                      xs={12}
-                      direction="column"
-                      justify="center"
-                      alignItems="center"
+        <Layout>
+          <motion.div variants={stagger}>
+            <MainGrid container direction="row" spacing={4} alignItems="center">
+              <Grid container item xs={12} md={6} justify="center">
+                <PremadeBoxHero whileHover={{ scale: 1.05 }} variants={fadeInUp}>
+                  <InnerGrid
+                    container
+                    item
+                    xs={12}
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                  >
+                    <Title variant="h4">Snackify Boxes</Title>
+                    <Description variant="body1">
+                      Choose from our assortment of delicious packages
+                    </Description>
+                    <BoxImage
+                      src={PremadeBoxImg}
+                      initial={{ x: 60, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                    />
+                    <PillButtonGray
+                      variant="contained"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        router.push('boxes');
+                      }}
                     >
-                      <Title variant="h4">Snackify Boxes</Title>
-                      <Description variant="body1">
-                        Choose from our assortment of delicious packages
-                      </Description>
-                      <BoxImage src={PremadeBoxImg} />
-                      <PillButtonGray
-                        variant="contained"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          router.push('boxes');
-                        }}
-                      >
-                        Yum Time!
-                      </PillButtonGray>
-                    </InnerGrid>
-                  </PremadeBoxHero>
-                </Grid>
-                <Grid container item xs={12} md={6} justify="center">
-                  <CustomBoxHero whileHover={{ scale: 1.05 }} variants={fadeInUp}>
-                    <InnerGrid
-                      container
-                      item
-                      xs={12}
-                      direction="column"
-                      justify="center"
-                      alignItems="center"
+                      Yum Time!
+                    </PillButtonGray>
+                  </InnerGrid>
+                </PremadeBoxHero>
+              </Grid>
+              <Grid container item xs={12} md={6} justify="center">
+                <CustomBoxHero whileHover={{ scale: 1.05 }} variants={fadeInUp}>
+                  <InnerGrid
+                    container
+                    item
+                    xs={12}
+                    direction="column"
+                    justify="center"
+                    alignItems="center"
+                  >
+                    <Title variant="h4">Custom Boxes</Title>
+                    <Description variant="body1">Design your own custom Snackify box!</Description>
+                    <BoxImage
+                      src={CustomBoxImg}
+                      initial={{ x: 60, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                    />
+                    <PillButtonYellow
+                      variant="contained"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        router.push('custom');
+                      }}
                     >
-                      <Title variant="h4">Custom Boxes</Title>
-                      <Description variant="body1">
-                        Design your own custom Snackify box!
-                      </Description>
-                      <BoxImage src={CustomBoxImg} />
-                      <PillButtonYellow variant="contained">Munch</PillButtonYellow>
-                    </InnerGrid>
-                  </CustomBoxHero>
-                </Grid>
-              </MainGrid>
-            </Container>
+                      Munch
+                    </PillButtonYellow>
+                  </InnerGrid>
+                </CustomBoxHero>
+              </Grid>
+            </MainGrid>
           </motion.div>
-        )}
+        </Layout>
+        )
       </main>
     </div>
   );

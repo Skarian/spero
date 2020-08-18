@@ -321,7 +321,7 @@ export default function MyApp(props) {
         <ApolloProvider client={apolloClient}>
           <StoreProvider>
             <Navbar />
-            <AnimatePresence exitBeforeEnter>
+            <AnimatePresence exitBeforeEnter initial={false}>
               <Component {...pageProps} key={router.route} />
             </AnimatePresence>
           </StoreProvider>

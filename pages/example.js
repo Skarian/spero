@@ -52,12 +52,29 @@ const Home = () => {
   const { loading, error, data } = useQuery(PRODUCT_QUERY);
   console.log(data);
 
+  const easing = [0.6, -0.05, 0.01, 0.99];
+
+  const fadeInUp = {
+    initial: {
+      y: 60,
+      opacity: 0,
+    },
+    animate: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: easing,
+      },
+    },
+  };
+
   let productObject;
   if (loading) {
     productObject = <h1>LOADING</h1>;
   } else {
     productObject = data.products.edges.map((product) => (
-      <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+      <motion.div variants={fadeInUp}>
         <div style={{ border: '1px blue solid', margin: '8px' }}>
           <h1>{product.node.variants.edges[0].node.title}</h1>
           <h2>{product.node.description}</h2>
@@ -66,10 +83,7 @@ const Home = () => {
             style={{ width: '200px' }}
             alt="product"
           />
-          <h1>
-            $
-            {product.node.variants.edges[0].node.price}
-          </h1>
+          <h1>${product.node.variants.edges[0].node.price}</h1>
           <button
             onClick={() => {
               addProductToCart(product.node.variants.edges[0].node.id);
@@ -88,10 +102,12 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Container maxWidth="sm">
-          {productObject}
-          <Cart />
-        </Container>
+        <motion.div initial="initial" animate="animate" exit={{ opacity: 0 }}>
+          <Container maxWidth="sm">
+            {productObject}
+            <Cart />
+          </Container>
+        </motion.div>
       </main>
     </div>
   );
