@@ -26,7 +26,10 @@ const Card = styled(motion.div)`
   height: 330px;
   box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  opacity: 1;
+  opacity: ${(props) => (props.open ? '0.1' : '1')};
+  transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
+  -moz-transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
+  -webkit-transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
 `;
 
 const Image = styled(motion.img)`
@@ -63,8 +66,12 @@ const fadeInUp = {
   },
 };
 
-const ProductCard = ({ box, handleClick }) => {
+const ProductCard = ({ box, handleClick, expandedProduct }) => {
   const { id, title, image, tags, description } = box;
+  let open;
+  if (expandedProduct !== '') {
+    open = true;
+  } else open = false;
 
   return (
     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} variants={fadeInUp}>
@@ -72,6 +79,8 @@ const ProductCard = ({ box, handleClick }) => {
         onClick={() => {
           handleClick(id);
         }}
+        open={open}
+        clasName=".fade"
       >
         <Grid item>
           <Title align="center" variant="h6">

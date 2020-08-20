@@ -26,6 +26,10 @@ const ProductGrid = styled(GridBase)`
 `;
 const Title = styled(Typography)`
   padding-bottom: 25px;
+  opacity: ${(props) => (props.open ? '0.1' : '1')};
+  transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
+  -moz-transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
+  -webkit-transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
   &.MuiTypography-h3 {
     font-weight: 1000;
     margin-block-start: 1em;
@@ -77,6 +81,10 @@ const stagger = {
 const Boxes = () => {
   const { loading, error, data } = useQuery(BOXES_QUERY);
   const [expandedProduct, setExpandedProduct] = useState('');
+  let open;
+  if (expandedProduct !== '') {
+    open = true;
+  } else open = false;
   let boxData;
   if (loading === false) {
     boxData = data.collectionByHandle.products.edges.map((box) => ({
@@ -101,7 +109,7 @@ const Boxes = () => {
         <Layout>
           <MainGrid container justify="center">
             <TitleGrid item xs={12}>
-              <Title align="center" variant="h3">
+              <Title align="center" variant="h3" open={open}>
                 Ready to Snack Boxes
               </Title>
             </TitleGrid>
@@ -120,7 +128,11 @@ const Boxes = () => {
                         lg={4}
                         justify="space-around"
                       >
-                        <ProductCard box={box} handleClick={setExpandedProduct} />
+                        <ProductCard
+                          box={box}
+                          handleClick={setExpandedProduct}
+                          expandedProduct={expandedProduct}
+                        />
                         <AnimatePresence exitBeforeEnter>
                           {expandedProduct === box.id && (
                             <ExpandedProductCard box={box} open={setExpandedProduct} />

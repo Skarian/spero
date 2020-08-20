@@ -12,10 +12,20 @@ const Card = styled(motion.div)`
   width: 80vw;
   height: 70vh;
   position: fixed;
+  top: 55%;
+  left: 50%;
+  margin-top: -35vh; /* Negative half of height. */
+  margin-left: -40vw; /* Negative half of width. */
+  z-index: 1300;
+  ${Down.sm`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
   top: 50%;
   left: 50%;
-  margin-top: -30vh; /* Negative half of height. */
-  margin-left: -40vw; /* Negative half of width. */
+  margin-top: -50vh; /* Negative half of height. */
+  margin-left: -50vw; /* Negative half of width. */
+`}
 `;
 
 const Grid = styled(GridBase)`
@@ -28,7 +38,7 @@ const Image = styled(GridBase)`
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
   padding: 20px;
-  ${Down.md`
+  ${Down.sm`
   border-top-right-radius: 25px;
   border-bottom-left-radius: 0px;
 `}
@@ -38,7 +48,7 @@ const Description = styled(GridBase)`
   background-color: #ffdd94;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
-  ${Down.md`
+  ${Down.sm`
   border-top-right-radius: 0px;
   border-bottom-left-radius: 25px;
 `}
@@ -62,14 +72,20 @@ const ExpandedProductCard = ({ box, open }) => {
   return (
     <Card
       animate={{
-        y: 0,
+        // y: 0,
+        scale: 1,
         opacity: 1,
       }}
       initial={{
-        y: 60,
-        opacity: 0,
+        // y: 60,
+        opacity: 0.5,
+        scale: 0,
       }}
-      exit={{ opacity: 0 }}
+      exit={{
+        // opacity: 0,
+        opacity: 0.5,
+        scale: 0,
+      }}
       key={box.id}
     >
       <Grid container>
