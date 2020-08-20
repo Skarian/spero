@@ -12,7 +12,7 @@ import theme from '../utils/theme';
 import Navbar from '../components/Navbar';
 import { useApollo } from '../utils/apolloClient';
 import { StoreProvider } from '../context/StoreContext';
-import { Animatepresence, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
 export default function MyApp(props) {
   const { Component, pageProps, router } = props;

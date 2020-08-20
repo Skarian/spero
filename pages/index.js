@@ -8,109 +8,109 @@ import PremadeBoxImg from '../assets/Employees.png';
 import { Down } from '../utils/breakpoints';
 import Layout from '../components/Layout';
 
-const Home = () => {
-  // Turns wireframes for grids on and off for debugging layout
-  const wireframes = false;
+// Turns wireframes for grids on and off for debugging layout
+const wireframes = false;
 
-  // Styled-Components
-  const MainGrid = styled(GridBase)`
-    border: ${wireframes ? '1px solid red' : 'none'};
-  `;
-  const PremadeBoxHero = styled(motion.div)`
-    background-color: #ffdd94;
-    border-radius: 50px;
-    border: ${wireframes ? '1px solid red' : 'none'};
-    width: 40vw;
-    padding-left: 40px;
-    padding-right: 40px;
-    ${Down.md`
-      width: 80vh;
-      max-width: 500px;
-    `};
-  `;
-  const CustomBoxHero = styled(motion.div)`
+// Styled-Components
+const MainGrid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+`;
+const PremadeBoxHero = styled(motion.div)`
+  background-color: #ffdd94;
+  border-radius: 50px;
+  border: ${wireframes ? '1px solid red' : 'none'};
+  width: 40vw;
+  padding-left: 40px;
+  padding-right: 40px;
+  ${Down.md`
+  width: 80vh;
+  max-width: 500px;
+`};
+`;
+const CustomBoxHero = styled(motion.div)`
+  background-color: #f0eeeb;
+  border-radius: 50px;
+  border: ${wireframes ? '1px solid red' : 'none'};
+  width: 40vw;
+  padding-left: 40px;
+  padding-right: 40px;
+  ${Down.md`
+  width: 80vh;
+  max-width: 500px;
+`}
+`;
+const Title = styled(Typography)`
+  padding-top: 75px;
+  padding-bottom: 20px;
+  &.MuiTypography-h4 {
+    font-weight: 1000;
+  }
+`;
+const Description = styled(Typography)`
+  padding-top: 20px;
+  padding-bottom: 50px;
+  color: #6e6348;
+
+  &.MuiTypography-body1 {
+    font-weight: 800;
+  }
+`;
+const Grid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+`;
+const InnerGrid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+  height: 100%;
+  width: 80%;
+`;
+const BoxImage = styled(motion.img)`
+  height: 300px;
+  width: auto;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  ${Down.lg`
+  height: 200px
+`}
+  ${Down.lg`
+  height: 175px
+`}
+`;
+const PillButtonGray = styled(ButtonBase)`
+  &.MuiButton-contained {
     background-color: #f0eeeb;
-    border-radius: 50px;
-    border: ${wireframes ? '1px solid red' : 'none'};
-    width: 40vw;
-    padding-left: 40px;
-    padding-right: 40px;
-    ${Down.md`
-      width: 80vh;
-      max-width: 500px;
-    `}
-  `;
-  const Title = styled(Typography)`
-    padding-top: 75px;
-    padding-bottom: 20px;
-    &.MuiTypography-h4 {
-      font-weight: 1000;
-    }
-  `;
-  const Description = styled(Typography)`
-    padding-top: 20px;
-    padding-bottom: 50px;
-    color: #6e6348;
+    border-radius: 100px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  &.MuiButton-root {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+`;
+const PillButtonYellow = styled(ButtonBase)`
+  &.MuiButton-contained {
+    background-color: #6e6348;
+    border-radius: 100px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+  }
+  &.MuiButton-root {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+`;
 
-    &.MuiTypography-body1 {
-      font-weight: 800;
-    }
-  `;
-  const Grid = styled(GridBase)`
-    border: ${wireframes ? '1px solid red' : 'none'};
-  `;
-  const InnerGrid = styled(GridBase)`
-    border: ${wireframes ? '1px solid red' : 'none'};
-    height: 100%;
-    width: 80%;
-  `;
-  const BoxImage = styled(motion.img)`
-    height: 300px;
-    width: auto;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    ${Down.lg`
-      height: 200px
-    `}
-    ${Down.lg`
-      height: 175px
-    `}
-  `;
-  const PillButtonGray = styled(ButtonBase)`
-    &.MuiButton-contained {
-      background-color: #f0eeeb;
-      border-radius: 100px;
-      margin-top: 50px;
-      margin-bottom: 50px;
-      padding-left: 30px;
-      padding-right: 30px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-    }
-    &.MuiButton-root {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-  `;
-  const PillButtonYellow = styled(ButtonBase)`
-    &.MuiButton-contained {
-      background-color: #6e6348;
-      border-radius: 100px;
-      margin-top: 50px;
-      margin-bottom: 50px;
-      padding-left: 30px;
-      padding-right: 30px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      color: white;
-    }
-    &.MuiButton-root {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-  `;
-
+const Home = () => {
   const router = useRouter();
 
   const easing = [0.6, -0.05, 0.01, 0.99];
