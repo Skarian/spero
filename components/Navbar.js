@@ -120,7 +120,7 @@ const Navbar = () => {
               {sideDrawer}
             </Drawer>
 
-            <Link href="/">
+            <Link href="/index/" as="/">
               <a>
                 <Logo src={LogoImg} />
               </a>

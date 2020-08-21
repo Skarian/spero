@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { gql, useQuery } from '@apollo/client';
 import { initializeApollo } from '../../utils/apolloClient';
+import Link from 'next/link';
 
 const BOX_QUERY = gql`
   query Boxes($handle: String!) {
@@ -54,6 +55,9 @@ const Box = () => {
   console.log(handle);
   if (loading === false) {
     console.log(data);
+  }
+  if (router.isFallback) {
+    console.log('This is a fallback');
   }
   return (
     <div>

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const wireframes = false;
 
@@ -93,33 +94,35 @@ const ProductCard = ({ box }) => {
   const { id, title, image, tags, handle } = box;
 
   return (
-    <motion.div
-      whileTap={{ scale: 0.95 }}
-      variants={fadeInUp}
-      onClick={(e) => {
-        e.preventDefault();
-        router.push(`/boxes/${handle}`);
-      }}
-    >
-      <Card>
-        <Grid item>
-          <Title align="center" variant="h6">
-            {title}
-          </Title>
-        </Grid>
-        <Grid container item justify="center">
-          <Image
-            src={image}
-            initial={{ x: 30, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          />
-        </Grid>
-        <Grid container item justify="center">
-          {tags.length > 0 ? tags.map((tag) => <TagChip size="small" label={tag} />) : null}
-        </Grid>
-      </Card>
-    </motion.div>
+    <Link href="/boxes/[handle]" as={`/boxes/${handle}`}>
+      <motion.div
+        whileTap={{ scale: 0.95 }}
+        variants={fadeInUp}
+        // onClick={(e) => {
+        //   e.preventDefault();
+        //   router.push(`/boxes/${handle}`);
+        // }}
+      >
+        <Card>
+          <Grid item>
+            <Title align="center" variant="h6">
+              {title}
+            </Title>
+          </Grid>
+          <Grid container item justify="center">
+            <Image
+              src={image}
+              initial={{ x: 30, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            />
+          </Grid>
+          <Grid container item justify="center">
+            {tags.length > 0 ? tags.map((tag) => <TagChip size="small" label={tag} />) : null}
+          </Grid>
+        </Card>
+      </motion.div>
+    </Link>
   );
 };
 
