@@ -17,14 +17,18 @@ const Card = styled(motion.div)`
   margin-top: -35vh; /* Negative half of height. */
   margin-left: -40vw; /* Negative half of width. */
   z-index: 1300;
+  border-radius: 25px;
+  -webkit-box-shadow: 0px 0px 52px -7px rgba(0, 0, 0, 0.51);
+  -moz-box-shadow: 0px 0px 52px -7px rgba(0, 0, 0, 0.51);
+  box-shadow: 0px 0px 52px -7px rgba(0, 0, 0, 0.51);
   ${Down.sm`
-  width: 100vw;
-  height: 100vh;
+  width: 95vw;
+  height: 87vh;
   position: fixed;
-  top: 50%;
+  top: 60%;
   left: 50%;
-  margin-top: -50vh; /* Negative half of height. */
-  margin-left: -50vw; /* Negative half of width. */
+  margin-top: -48vh; /* Negative half of height. */
+  margin-left: -47.5vw; /* Negative half of width. */
 `}
 `;
 
@@ -34,7 +38,7 @@ const Grid = styled(GridBase)`
 `;
 
 const Image = styled(GridBase)`
-  background-color: #f0eeeb;
+  background-color: white;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
   padding: 20px;
@@ -89,7 +93,7 @@ const ExpandedProductCard = ({ box, open }) => {
       key={box.id}
     >
       <Grid container>
-        <Image item sm={12} md={6} xs={12}>
+        <Image item sm={6} md={6} xs={12}>
           <motion.div whileTap={{ y: 1 }}>
             <CloseButton
               onClick={() => {
@@ -98,7 +102,7 @@ const ExpandedProductCard = ({ box, open }) => {
             />
           </motion.div>
         </Image>
-        <Description item sm={12} md={6} xs={12}>
+        <Description item sm={6} md={6} xs={12}>
           Hello
         </Description>
       </Grid>

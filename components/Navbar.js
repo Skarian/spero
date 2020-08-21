@@ -25,7 +25,7 @@ import { useViewportScroll } from 'framer-motion';
 import LogoImg from '../public/images/logo-light.png';
 
 const Root = styled.div`
-  padding-bottom: 100px;
+  padding-bottom: 72px;
 `;
 
 const AppBar = styled(MuiAppBar)`

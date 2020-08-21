@@ -7,14 +7,12 @@ import CustomBoxImg from '../assets/Customers.png';
 import PremadeBoxImg from '../assets/Employees.png';
 import { Down } from '../utils/breakpoints';
 import Layout from '../components/Layout';
+import { Title } from '../components/Elements';
 
 // Turns wireframes for grids on and off for debugging layout
 const wireframes = false;
 
 // Styled-Components
-const MainGrid = styled(GridBase)`
-  border: ${wireframes ? '1px solid red' : 'none'};
-`;
 const PremadeBoxHero = styled(motion.div)`
   background-color: #ffdd94;
   border-radius: 50px;
@@ -22,6 +20,7 @@ const PremadeBoxHero = styled(motion.div)`
   width: 40vw;
   padding-left: 40px;
   padding-right: 40px;
+  cursor: pointer;
   ${Down.md`
   width: 80vh;
   max-width: 500px;
@@ -34,12 +33,13 @@ const CustomBoxHero = styled(motion.div)`
   width: 40vw;
   padding-left: 40px;
   padding-right: 40px;
+  cursor: pointer;
   ${Down.md`
   width: 80vh;
   max-width: 500px;
 `}
 `;
-const Title = styled(Typography)`
+const Header = styled(Typography)`
   padding-top: 75px;
   padding-bottom: 20px;
   &.MuiTypography-h4 {
@@ -58,17 +58,14 @@ const Description = styled(Typography)`
 const Grid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
 `;
-const InnerGrid = styled(GridBase)`
-  border: ${wireframes ? '1px solid red' : 'none'};
-  height: 100%;
-  width: 80%;
-`;
-const BoxImage = styled(motion.img)`
+
+const Image = styled(motion.img)`
   height: 300px;
   width: auto;
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+  margin-bottom: 50px;
   ${Down.lg`
   height: 200px
 `}
@@ -76,43 +73,11 @@ const BoxImage = styled(motion.img)`
   height: 175px
 `}
 `;
-const PillButtonGray = styled(ButtonBase)`
-  &.MuiButton-contained {
-    background-color: #f0eeeb;
-    border-radius: 100px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-  &.MuiButton-root {
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-`;
-const PillButtonYellow = styled(ButtonBase)`
-  &.MuiButton-contained {
-    background-color: #6e6348;
-    border-radius: 100px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    color: white;
-  }
-  &.MuiButton-root {
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-`;
 
 const Home = () => {
   const router = useRouter();
 
+  // Animation - framer-motion
   const easing = [0.6, -0.05, 0.01, 0.99];
 
   const fadeInUp = {
@@ -146,11 +111,22 @@ const Home = () => {
       </Head>
       <main>
         <Layout>
+          <Title align="center" variant="h3">
+            Choose your path
+          </Title>
           <motion.div variants={stagger}>
-            <MainGrid container direction="row" spacing={4} alignItems="center">
+            <Grid container direction="row" spacing={4} alignItems="center">
               <Grid container item xs={12} md={6} justify="center">
-                <PremadeBoxHero whileHover={{ scale: 1.05 }} variants={fadeInUp}>
-                  <InnerGrid
+                <PremadeBoxHero
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  variants={fadeInUp}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push('boxes');
+                  }}
+                >
+                  <Grid
                     container
                     item
                     xs={12}
@@ -158,31 +134,30 @@ const Home = () => {
                     justify="center"
                     alignItems="center"
                   >
-                    <Title variant="h4">Snackify Boxes</Title>
+                    <Header variant="h4">Snackify Boxes</Header>
                     <Description variant="body1">
                       Choose from our assortment of delicious packages
                     </Description>
-                    <BoxImage
+                    <Image
                       src={PremadeBoxImg}
                       initial={{ x: 60, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.2 }}
                     />
-                    <PillButtonGray
-                      variant="contained"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        router.push('boxes');
-                      }}
-                    >
-                      Yum Time!
-                    </PillButtonGray>
-                  </InnerGrid>
+                  </Grid>
                 </PremadeBoxHero>
               </Grid>
               <Grid container item xs={12} md={6} justify="center">
-                <CustomBoxHero whileHover={{ scale: 1.05 }} variants={fadeInUp}>
-                  <InnerGrid
+                <CustomBoxHero
+                  whileHover={{ scale: 1.05 }}
+                  variants={fadeInUp}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push('custom');
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Grid
                     container
                     item
                     xs={12}
@@ -190,27 +165,18 @@ const Home = () => {
                     justify="center"
                     alignItems="center"
                   >
-                    <Title variant="h4">Custom Boxes</Title>
+                    <Header variant="h4">Custom Boxes</Header>
                     <Description variant="body1">Design your own custom Snackify box!</Description>
-                    <BoxImage
+                    <Image
                       src={CustomBoxImg}
                       initial={{ x: 60, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.2 }}
                     />
-                    <PillButtonYellow
-                      variant="contained"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        router.push('custom');
-                      }}
-                    >
-                      Munch
-                    </PillButtonYellow>
-                  </InnerGrid>
+                  </Grid>
                 </CustomBoxHero>
               </Grid>
-            </MainGrid>
+            </Grid>
           </motion.div>
         </Layout>
         )

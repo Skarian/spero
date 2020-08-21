@@ -3,14 +3,26 @@ import { gql, useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { Container, Grid as GridBase, Typography } from '@material-ui/core';
 import { motion, AnimatePresence } from 'framer-motion';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { StoreContext } from '../context/StoreContext';
 import { initializeApollo } from '../utils/apolloClient';
 import Layout from '../components/Layout';
 import ProductCard from '../components/ProductCard';
 import ExpandedProductCard from '../components/ExpandedProductCard';
+import { Title } from '../components/Elements';
 
 const wireframes = false;
+
+const Body = styled.div`
+  ${(props) =>
+    props.open &&
+    css`
+      background: #e0e0e0;
+      -webkit-transition: background-color 500ms linear;
+      -ms-transition: background-color 500ms linear;
+      transition: background-color 500ms linear;
+    `}
+`;
 
 const MainGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
@@ -23,18 +35,6 @@ const ProductWrapperGrid = styled(GridBase)`
 `;
 const ProductGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
-`;
-const Title = styled(Typography)`
-  padding-bottom: 25px;
-  opacity: ${(props) => (props.open ? '0.1' : '1')};
-  transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
-  -moz-transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
-  -webkit-transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
-  &.MuiTypography-h3 {
-    font-weight: 1000;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-  }
 `;
 
 const BOXES_QUERY = gql`
@@ -106,48 +106,50 @@ const Boxes = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout>
-          <MainGrid container justify="center">
-            <TitleGrid item xs={12}>
-              <Title align="center" variant="h3" open={open}>
-                Ready to Snack Boxes
-              </Title>
-            </TitleGrid>
-            <Container maxWidth="lg">
-              <motion.div variants={stagger}>
-                <ProductWrapperGrid container spacing={3}>
-                  {loading === false ? (
-                    boxData.map((box) => (
-                      <ProductGrid
-                        key={box.id}
-                        container
-                        item
-                        xs={12}
-                        sm={12}
-                        md={6}
-                        lg={4}
-                        justify="space-around"
-                      >
-                        <ProductCard
-                          box={box}
-                          handleClick={setExpandedProduct}
-                          expandedProduct={expandedProduct}
-                        />
-                        <AnimatePresence exitBeforeEnter>
-                          {expandedProduct === box.id && (
-                            <ExpandedProductCard box={box} open={setExpandedProduct} />
-                          )}
-                        </AnimatePresence>
-                      </ProductGrid>
-                    ))
-                  ) : (
-                    <h1>Loading</h1>
-                  )}
-                </ProductWrapperGrid>
-              </motion.div>
-            </Container>
-          </MainGrid>
-        </Layout>
+        <Body open={open}>
+          <Layout>
+            <MainGrid container justify="center">
+              <TitleGrid item xs={12}>
+                <Title align="center" variant="h3" open={open}>
+                  Ready to Snack Boxes
+                </Title>
+              </TitleGrid>
+              <Container maxWidth="lg">
+                <motion.div variants={stagger}>
+                  <ProductWrapperGrid container spacing={3}>
+                    {loading === false ? (
+                      boxData.map((box) => (
+                        <ProductGrid
+                          key={box.id}
+                          container
+                          item
+                          xs={12}
+                          sm={12}
+                          md={6}
+                          lg={4}
+                          justify="space-around"
+                        >
+                          <ProductCard
+                            box={box}
+                            handleClick={setExpandedProduct}
+                            expandedProduct={expandedProduct}
+                          />
+                          <AnimatePresence exitBeforeEnter>
+                            {expandedProduct === box.id && (
+                              <ExpandedProductCard box={box} open={setExpandedProduct} />
+                            )}
+                          </AnimatePresence>
+                        </ProductGrid>
+                      ))
+                    ) : (
+                      <h1>Loading</h1>
+                    )}
+                  </ProductWrapperGrid>
+                </motion.div>
+              </Container>
+            </MainGrid>
+          </Layout>
+        </Body>
       </main>
     </div>
   );
