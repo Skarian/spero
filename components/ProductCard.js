@@ -3,6 +3,7 @@ import { Grid as GridBase, Typography, Chip } from '@material-ui/core';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 
 const wireframes = false;
 
@@ -14,28 +15,49 @@ const Title = styled(Typography)`
     font-weight: 700;
   }
 `;
-const Description = styled(Typography)`
-  padding-top: 10px;
-`;
 
 const Card = styled(motion.div)`
   padding: 30px;
-  background-color: #f0f5ff;
+  /* background-color: #f0f5ff; */
   border-radius: 25px;
   max-width: 400px;
-  height: 330px;
-  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
+  height: 325px;
+
   cursor: pointer;
-  opacity: ${(props) => (props.open ? '0.1' : '1')};
-  transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
-  -moz-transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
-  -webkit-transition: ${(props) => (props.open ? 'opacity .25s ease-in-out' : '')};
+  /* &:hover {
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 1s ease-in-out;
+  } */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0);
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  &::after {
+    content: '';
+    border-radius: 25px;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  &:hover {
+    -webkit-transform: scale(1.05, 1.05);
+    transform: scale(1.05, 1.05);
+  }
+  &:hover::after {
+    opacity: 1;
+  }
 `;
 
 const Image = styled(motion.img)`
-  width: 275px;
+  width: 100%;
   border-radius: 25px;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   padding-top: 10px;
 `;
 
@@ -66,22 +88,20 @@ const fadeInUp = {
   },
 };
 
-const ProductCard = ({ box, handleClick, expandedProduct }) => {
-  const { id, title, image, tags, description } = box;
-  let open;
-  if (expandedProduct !== '') {
-    open = true;
-  } else open = false;
+const ProductCard = ({ box }) => {
+  const router = useRouter();
+  const { id, title, image, tags, handle } = box;
 
   return (
-    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} variants={fadeInUp}>
-      <Card
-        onClick={() => {
-          handleClick(id);
-        }}
-        open={open}
-        clasName=".fade"
-      >
+    <motion.div
+      whileTap={{ scale: 0.95 }}
+      variants={fadeInUp}
+      onClick={(e) => {
+        e.preventDefault();
+        router.push(`/boxes/${handle}`);
+      }}
+    >
+      <Card>
         <Grid item>
           <Title align="center" variant="h6">
             {title}
@@ -98,9 +118,6 @@ const ProductCard = ({ box, handleClick, expandedProduct }) => {
         <Grid container item justify="center">
           {tags.length > 0 ? tags.map((tag) => <TagChip size="small" label={tag} />) : null}
         </Grid>
-        <Grid item>
-          <Description variant="body2">{description}</Description>
-        </Grid>
       </Card>
     </motion.div>
   );
@@ -114,7 +131,6 @@ ProductCard.propTypes = {
     image: PropTypes.string.isRequired,
     tags: PropTypes.arrayOf.isRequired,
   }).isRequired,
-  handleClick: PropTypes.func.isRequired,
 };
 
 export default ProductCard;

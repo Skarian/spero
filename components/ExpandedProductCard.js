@@ -23,11 +23,11 @@ const Card = styled(motion.div)`
   box-shadow: 0px 0px 52px -7px rgba(0, 0, 0, 0.51);
   ${Down.sm`
   width: 95vw;
-  height: 87vh;
+  height: 90vh;
   position: fixed;
-  top: 60%;
+  top: 50%;
   left: 50%;
-  margin-top: -48vh; /* Negative half of height. */
+  margin-top: -45vh; /* Negative half of height. */
   margin-left: -47.5vw; /* Negative half of width. */
 `}
 `;

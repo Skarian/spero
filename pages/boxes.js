@@ -1,14 +1,13 @@
 import Head from 'next/head';
 import { gql, useQuery } from '@apollo/client';
 import React, { useState } from 'react';
-import { Container, Grid as GridBase, Typography } from '@material-ui/core';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Container, Grid as GridBase } from '@material-ui/core';
+import { motion } from 'framer-motion';
 import styled, { css } from 'styled-components';
 import { StoreContext } from '../context/StoreContext';
 import { initializeApollo } from '../utils/apolloClient';
 import Layout from '../components/Layout';
 import ProductCard from '../components/ProductCard';
-import ExpandedProductCard from '../components/ExpandedProductCard';
 import { Title } from '../components/Elements';
 
 const wireframes = false;
@@ -63,6 +62,7 @@ const BOXES_QUERY = gql`
               }
             }
             description
+            handle
           }
         }
       }
@@ -80,16 +80,12 @@ const stagger = {
 
 const Boxes = () => {
   const { loading, error, data } = useQuery(BOXES_QUERY);
-  const [expandedProduct, setExpandedProduct] = useState('');
-  let open;
-  if (expandedProduct !== '') {
-    open = true;
-  } else open = false;
   let boxData;
   if (loading === false) {
     boxData = data.collectionByHandle.products.edges.map((box) => ({
       title: box.node.title,
       description: box.node.description,
+      handle: box.node.handle,
       tags: box.node.tags,
       id: box.node.variants.edges[0].node.id,
       image: box.node.variants.edges[0].node.image.originalSrc,
@@ -106,11 +102,11 @@ const Boxes = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Body open={open}>
+        <Body>
           <Layout>
             <MainGrid container justify="center">
               <TitleGrid item xs={12}>
-                <Title align="center" variant="h3" open={open}>
+                <Title align="center" variant="h3">
                   Ready to Snack Boxes
                 </Title>
               </TitleGrid>
@@ -129,16 +125,7 @@ const Boxes = () => {
                           lg={4}
                           justify="space-around"
                         >
-                          <ProductCard
-                            box={box}
-                            handleClick={setExpandedProduct}
-                            expandedProduct={expandedProduct}
-                          />
-                          <AnimatePresence exitBeforeEnter>
-                            {expandedProduct === box.id && (
-                              <ExpandedProductCard box={box} open={setExpandedProduct} />
-                            )}
-                          </AnimatePresence>
+                          <ProductCard box={box} />
                         </ProductGrid>
                       ))
                     ) : (
