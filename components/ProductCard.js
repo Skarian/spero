@@ -72,6 +72,11 @@ const TagChip = styled(Chip)`
   }
 `;
 
+const DynamicLink = styled.a`
+  color: black;
+  text-decoration: none;
+`;
+
 const easing = [0.6, -0.05, 0.01, 0.99];
 
 const fadeInUp = {
@@ -94,7 +99,8 @@ const ProductCard = ({ box }) => {
   const { id, title, image, tags, handle } = box;
 
   return (
-    <Link href="/boxes/[handle]" as={`/boxes/${handle}`}>
+    <DynamicLink href={`/boxes/${handle}`}>
+      {/* <a href="/boxes/[handle]" as={`/boxes/${handle}`}> */}
       <motion.div
         whileTap={{ scale: 0.95 }}
         variants={fadeInUp}
@@ -122,7 +128,7 @@ const ProductCard = ({ box }) => {
           </Grid>
         </Card>
       </motion.div>
-    </Link>
+    </DynamicLink>
   );
 };
 
