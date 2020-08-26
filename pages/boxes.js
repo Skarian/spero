@@ -12,16 +12,7 @@ import { Title } from '../components/Elements';
 
 const wireframes = false;
 
-const Body = styled.div`
-  ${(props) =>
-    props.open &&
-    css`
-      background: #e0e0e0;
-      -webkit-transition: background-color 500ms linear;
-      -ms-transition: background-color 500ms linear;
-      transition: background-color 500ms linear;
-    `}
-`;
+const Body = styled.div``;
 
 const MainGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
@@ -102,41 +93,39 @@ const Boxes = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Body>
-          <Layout>
-            <MainGrid container justify="center">
-              <TitleGrid item xs={12}>
-                <Title align="center" variant="h3">
-                  Ready to Snack Boxes
-                </Title>
-              </TitleGrid>
-              <Container maxWidth="lg">
-                <motion.div variants={stagger}>
-                  <ProductWrapperGrid container spacing={3}>
-                    {loading === false ? (
-                      boxData.map((box) => (
-                        <ProductGrid
-                          key={box.id}
-                          container
-                          item
-                          xs={12}
-                          sm={12}
-                          md={6}
-                          lg={4}
-                          justify="space-around"
-                        >
-                          <ProductCard box={box} />
-                        </ProductGrid>
-                      ))
-                    ) : (
-                      <h1>Loading</h1>
-                    )}
-                  </ProductWrapperGrid>
-                </motion.div>
-              </Container>
-            </MainGrid>
-          </Layout>
-        </Body>
+        <Layout>
+          <MainGrid container justify="center">
+            <TitleGrid item xs={12}>
+              <Title align="center" variant="h3">
+                Ready to Snack Boxes
+              </Title>
+            </TitleGrid>
+            <Container maxWidth="lg">
+              <motion.div variants={stagger}>
+                <ProductWrapperGrid container spacing={3}>
+                  {loading === false ? (
+                    boxData.map((box) => (
+                      <ProductGrid
+                        key={box.id}
+                        container
+                        item
+                        xs={12}
+                        sm={12}
+                        md={6}
+                        lg={4}
+                        justify="space-around"
+                      >
+                        <ProductCard box={box} />
+                      </ProductGrid>
+                    ))
+                  ) : (
+                    <h1>Loading</h1>
+                  )}
+                </ProductWrapperGrid>
+              </motion.div>
+            </Container>
+          </MainGrid>
+        </Layout>
       </main>
     </div>
   );

@@ -1,7 +1,10 @@
 import { useRouter } from 'next/router';
 import { gql, useQuery } from '@apollo/client';
+import { motion } from 'framer-motion';
+import Head from 'next/head';
 import { initializeApollo } from '../../utils/apolloClient';
-import Link from 'next/link';
+import Layout from '../../components/Layout';
+import { Typography } from '@material-ui/core';
 
 const BOX_QUERY = gql`
   query Boxes($handle: String!) {
@@ -45,29 +48,42 @@ const BOX_HANDLES = gql`
   }
 `;
 
+const easing = [0.6, -0.05, 0.01, 0.99];
+
+const fadeInUp = {
+  initial: {
+    y: 60,
+    opacity: 0,
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      ease: easing,
+    },
+  },
+};
+
 const Box = () => {
   const router = useRouter();
   const { handle } = router.query;
-  // const { loading, error, data } = useQuery(BOX_QUERY);
   const { loading, error, data } = useQuery(BOX_QUERY, {
     variables: { handle },
   });
-  console.log(handle);
-  if (loading === false) {
-    console.log(data);
-  }
-  if (router.isFallback) {
-    console.log('This is a fallback');
-  }
+  console.log(`loading: ${loading}`);
   return (
     <div>
-      {loading === false && (
-        <div>
-          <h1>{data.productByHandle.title}</h1>
-          <h2>{data.productByHandle.description}</h2>
-          <h3>{data.productByHandle.variants.edges[0].node.priceV2.amount}</h3>
-        </div>
-      )}
+      <Head>
+        <title>Snackify, the easiest way to send snacks.</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main>
+        <Layout>
+          <Typography variant="h1">Hello</Typography>
+          {loading === false ? <h1>Loaded</h1> : null}
+        </Layout>
+      </main>
     </div>
   );
 };
@@ -87,7 +103,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 }
 

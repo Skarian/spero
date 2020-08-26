@@ -92,7 +92,7 @@ const Navbar = () => {
   // Pages Array
   const pages = [
     [0, 'Home', <HomeIcon />, '/'],
-    [1, 'Jobs', <FindInPageIcon />, '/dashboard'],
+    [1, 'Jobs', <FindInPageIcon />, '/'],
     [2, 'Trainer', <BuildIcon />, '/'],
     [3, 'About', <CreateIcon />, '/'],
   ];
@@ -120,10 +120,8 @@ const Navbar = () => {
               {sideDrawer}
             </Drawer>
 
-            <Link href="/index/" as="/">
-              <a>
-                <Logo src={LogoImg} />
-              </a>
+            <Link href="/">
+              <Logo src={LogoImg} />
             </Link>
             <Hidden xsDown>
               <ButtonGroup disableRipple variant="text" orientation="horizontal">

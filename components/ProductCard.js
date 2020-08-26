@@ -97,18 +97,26 @@ const fadeInUp = {
 const ProductCard = ({ box }) => {
   const router = useRouter();
   const { id, title, image, tags, handle } = box;
+  const nextLinkProps = {
+    as: {
+      pathname: `/boxes/${handle}`,
+      query: {
+        handle,
+      },
+    },
+    href: {
+      pathname: '/[handle]',
+      query: {
+        handle,
+      },
+    },
+  };
 
   return (
-    <DynamicLink href={`/boxes/${handle}`}>
-      {/* <a href="/boxes/[handle]" as={`/boxes/${handle}`}> */}
-      <motion.div
-        whileTap={{ scale: 0.95 }}
-        variants={fadeInUp}
-        // onClick={(e) => {
-        //   e.preventDefault();
-        //   router.push(`/boxes/${handle}`);
-        // }}
-      >
+    // <DynamicLink href={`/boxes/${handle}`}>
+    // <Link href={nextLinkProps.href} as={nextLinkProps.as}>
+    <Link href="/boxes/[handle]" as={`/boxes/${handle}`}>
+      <motion.div whileTap={{ scale: 0.95 }} variants={fadeInUp}>
         <Card>
           <Grid item>
             <Title align="center" variant="h6">
@@ -128,7 +136,7 @@ const ProductCard = ({ box }) => {
           </Grid>
         </Card>
       </motion.div>
-    </DynamicLink>
+    </Link>
   );
 };
 
