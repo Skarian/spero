@@ -91,7 +91,7 @@ const Navbar = () => {
 
   // Pages Array
   const pages = [
-    [0, 'Home', <HomeIcon />, '/'],
+    [0, 'Home', <HomeIcon />, '/boxes'],
     [1, 'Jobs', <FindInPageIcon />, '/'],
     [2, 'Trainer', <BuildIcon />, '/'],
     [3, 'About', <CreateIcon />, '/'],

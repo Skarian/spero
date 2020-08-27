@@ -1,108 +1,181 @@
 import Head from 'next/head';
-import { Grid as GridBase, Typography, Button as ButtonBase } from '@material-ui/core';
-import styled from 'styled-components';
+import { Grid as GridBase, Typography, Chip, Button as ButtonBase } from '@material-ui/core';
+import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
-import CustomBoxImg from '../assets/Customers.png';
-import PremadeBoxImg from '../assets/Employees.png';
-import { Down } from '../utils/breakpoints';
+import Link from 'next/link';
 import Layout from '../components/Layout';
 import { Title } from '../components/Elements';
+import Box from '../assets/box.svg';
+import SnackImage from '../assets/goldfish.svg';
+import LetterImage from '../assets/letter.svg';
+import { Down } from '../utils/breakpoints';
 
 // Turns wireframes for grids on and off for debugging layout
 const wireframes = false;
 
 // Styled-Components
-const PremadeBoxHero = styled(motion.div)`
-  background-color: #ffdd94;
-  border-radius: 50px;
-  border: ${wireframes ? '1px solid red' : 'none'};
-  width: 40vw;
-  padding-left: 40px;
-  padding-right: 40px;
-  cursor: pointer;
-  ${Down.md`
-  width: 80vh;
-  max-width: 500px;
-`};
-`;
-const CustomBoxHero = styled(motion.div)`
-  background-color: #f0eeeb;
-  border-radius: 50px;
-  border: ${wireframes ? '1px solid red' : 'none'};
-  width: 40vw;
-  padding-left: 40px;
-  padding-right: 40px;
-  cursor: pointer;
-  ${Down.md`
-  width: 80vh;
-  max-width: 500px;
-`}
-`;
-const Header = styled(Typography)`
-  padding-top: 75px;
-  padding-bottom: 20px;
-  &.MuiTypography-h4 {
-    font-weight: 1000;
-  }
-`;
-const Description = styled(Typography)`
-  padding-top: 20px;
-  padding-bottom: 50px;
-  color: #6e6348;
-
-  &.MuiTypography-body1 {
-    font-weight: 800;
-  }
-`;
 const Grid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
 `;
-
-const Image = styled(motion.img)`
-  height: 300px;
-  width: auto;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-  margin-bottom: 50px;
-  ${Down.lg`
-  height: 200px
+const LeftImageGrid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+  height: 100%;
+  ${Down.md`
+  height: 60%;
 `}
-  ${Down.lg`
-  height: 175px
+`;
+const RightImageGrid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+  height: 100%;
+  ${Down.md`
+  height: 40%;
+`}
+`;
+const SnackImageGrid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+  height: 60%;
+`;
+const BoxImageGrid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+  height: 40%;
+`;
+
+const DescriptionGrid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+  height: 70vh;
+  background-color: #f4f3f6;
+  padding: 50px;
+`;
+const DescriptionCard = styled(motion.div)`
+  position: relative;
+`;
+const ProductTitle = styled(Typography)`
+  &.MuiTypography-h4 {
+    font-weight: 700;
+  }
+  padding-bottom: 25px;
+`;
+const Description = styled(Typography)`
+  &.MuiTypography-body1 {
+    font-weight: 400;
+  }
+  padding-bottom: 25px;
+`;
+const TagChip = styled(Chip)`
+  &.MuiChip-root {
+    font-weight: 600;
+    background-color: #ffdd94;
+    margin-right: 15px;
+    padding-right: 5px;
+    padding-left: 5px;
+    margin-bottom: 5px;
+  }
+  &.MuiChip-label {
+  }
+`;
+const TagContainer = styled.div`
+  padding-bottom: 25px;
+`;
+const Price = styled(Typography)`
+  &.MuiTypography-h5 {
+    font-weight: 600;
+  }
+  padding-right: 15px;
+`;
+const ComparePrice = styled(Typography)`
+  &.MuiTypography-h5 {
+    font-weight: 300;
+    text-decoration: line-through;
+  }
+`;
+const BuyButton = styled(ButtonBase)`
+  &.MuiButton-contained {
+    background-color: #80f299;
+    &:hover {
+      background-color: #5dee7d;
+    }
+  }
+  &.MuiButton-root {
+    border-radius: 12px;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 29px;
+  }
+`;
+const PriceContainer = styled.div`
+  padding-bottom: 75px;
+`;
+
+const ImageGrid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+  height: 70vh;
+  background-color: #b8e5ff;
+  ${Down.md`
+  height: 110vh;
 `}
 `;
 
+const ImageCard = styled(motion.div)`
+  position: relative;
+  border: ${wireframes ? '1px solid red' : 'none'};
+  height: 100%;
+  width: 100%;
+`;
+
+const BoxIMG = styled(motion.img)`
+  height: 80%;
+`;
+const LetterIMG = styled(motion.img)`
+  height: 80%;
+`;
+
+const SnackIMG = styled(motion.img)`
+  position: absolute;
+  height: 25%
+  cursor: pointer;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  ${(props) =>
+    props.first &&
+    css`
+      top: 15%;
+      right: 63%;
+    `}
+  ${(props) =>
+    props.second &&
+    css`
+      top: 15%;
+      right: 43%;
+    `}
+    ${(props) =>
+      props.third &&
+      css`
+        top: 15%;
+        right: 23%;
+      `}
+    ${(props) =>
+      props.fourth &&
+      css`
+        top: 60%;
+        right: 63%;
+      `}
+  ${(props) =>
+    props.fifth &&
+    css`
+      top: 60%;
+      right: 43%;
+    `}
+    ${(props) =>
+      props.sixth &&
+      css`
+        top: 60%;
+        right: 23%;
+      `}
+`;
+
 const Home = () => {
-  const router = useRouter();
-
-  // Animation - framer-motion
-  const easing = [0.6, -0.05, 0.01, 0.99];
-
-  const fadeInUp = {
-    initial: {
-      y: 60,
-      opacity: 0,
-    },
-    animate: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: easing,
-      },
-    },
-  };
-
-  const stagger = {
-    animate: {
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
+  console.log('Test');
   return (
     <div>
       <Head>
@@ -110,76 +183,107 @@ const Home = () => {
         <link rel="icon" href="../assets/favicon.ico" />
       </Head>
       <main>
-        <Layout>
+        <motion.div initial="initial" animate="animate" exit={{ opacity: 0 }}>
           <Title align="center" variant="h3">
-            Choose your path
+            The <mark>simplest</mark> way to send snacks. Period.
           </Title>
-          <motion.div variants={stagger}>
-            <Grid container direction="row" spacing={4} alignItems="center">
-              <Grid container item xs={12} md={6} justify="center">
-                <PremadeBoxHero
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  variants={fadeInUp}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    router.push('boxes');
-                  }}
-                >
-                  <Grid
+          <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }}>
+            <Grid container alignItems="center">
+              <ImageGrid container xs={12} md={8} justify="center" alignItems="center">
+                <LeftImageGrid container item md={7} xs={12}>
+                  <SnackImageGrid container item xs={12}>
+                    <ImageCard>
+                      <SnackIMG
+                        src={SnackImage}
+                        first
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      />
+                      <SnackIMG
+                        src={SnackImage}
+                        second
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      />
+                      <SnackIMG
+                        src={SnackImage}
+                        third
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      />
+                      <SnackIMG
+                        src={SnackImage}
+                        fourth
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      />
+                      <SnackIMG
+                        src={SnackImage}
+                        fifth
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      />
+                      <SnackIMG
+                        src={SnackImage}
+                        sixth
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                      />
+                    </ImageCard>
+                  </SnackImageGrid>
+                  <BoxImageGrid
                     container
                     item
+                    direction="row"
                     xs={12}
-                    direction="column"
                     justify="center"
                     alignItems="center"
                   >
-                    <Header variant="h4">Snackify Boxes</Header>
-                    <Description variant="body1">
-                      Choose from our assortment of delicious packages
-                    </Description>
-                    <Image
-                      src={PremadeBoxImg}
-                      initial={{ x: 60, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.2 }}
+                    <BoxIMG
+                      src={Box}
+                      alt="carboard box"
+                      initial={{ opacity: 0, x: 60, scale: 0.5 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      transition={{ delay: 0.5 }}
                     />
-                  </Grid>
-                </PremadeBoxHero>
-              </Grid>
-              <Grid container item xs={12} md={6} justify="center">
-                <CustomBoxHero
-                  whileHover={{ scale: 1.05 }}
-                  variants={fadeInUp}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    router.push('custom');
-                  }}
-                  whileTap={{ scale: 0.95 }}
+                  </BoxImageGrid>
+                </LeftImageGrid>
+                <RightImageGrid container md={5} xs={12} alignItems="flex-start" justify="center">
+                  <LetterIMG src={LetterImage} />
+                </RightImageGrid>
+              </ImageGrid>
+              <DescriptionGrid container item md={4} xs={12} justify="center" alignItems="center">
+                <DescriptionCard
+                  initial={{ opacity: 0, x: -60 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
                 >
-                  <Grid
-                    container
-                    item
-                    xs={12}
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                  >
-                    <Header variant="h4">Custom Boxes</Header>
-                    <Description variant="body1">Design your own custom Snackify box!</Description>
-                    <Image
-                      src={CustomBoxImg}
-                      initial={{ x: 60, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.2 }}
-                    />
-                  </Grid>
-                </CustomBoxHero>
-              </Grid>
+                  <ProductTitle variant="h4" align="left">
+                    The "WFH" Care Package
+                  </ProductTitle>
+                  <Description variant="body1">
+                    Delicious snacks plus a personal note makes the perfect pick-me-up
+                  </Description>
+                  <TagContainer>
+                    <TagChip size="small" label="Free Shipping" />
+                    <TagChip size="small" label="Healthy" />
+                    <TagChip size="small" label="Energy Boost" />
+                  </TagContainer>
+
+                  <PriceContainer>
+                    <Price display="inline" variant="h5">
+                      $12.99
+                    </Price>
+                    <ComparePrice display="inline" variant="h5">
+                      $30.00
+                    </ComparePrice>
+                  </PriceContainer>
+                  <BuyButton variant="contained">Send Snacks</BuyButton>
+                </DescriptionCard>
+              </DescriptionGrid>
             </Grid>
           </motion.div>
-        </Layout>
-        )
+        </motion.div>
       </main>
     </div>
   );

@@ -8,4 +8,15 @@ export const Title = styled(Typography)`
     margin-block-start: 1em;
     margin-block-end: 1em;
   }
+  mark {
+    background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 15%,
+      #faad13 15%,
+      #faad13 30%,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
 `;
