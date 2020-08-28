@@ -126,6 +126,7 @@ const ImageCard = styled(motion.div)`
 
 const BoxIMG = styled(motion.img)`
   height: 80%;
+  z-index: 100;
 `;
 const LetterIMG = styled(motion.img)`
   height: 80%;
@@ -133,7 +134,7 @@ const LetterIMG = styled(motion.img)`
 
 const SnackIMG = styled(motion.img)`
   position: absolute;
-  height: 25%
+  height: 137px;
   cursor: pointer;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   ${(props) =>
@@ -141,41 +142,95 @@ const SnackIMG = styled(motion.img)`
     css`
       top: 15%;
       right: 63%;
+      ${Down.lg`
+        right: 60%;
+      `}
     `}
   ${(props) =>
     props.second &&
     css`
       top: 15%;
-      right: 43%;
+      right: 41%;
+      ${Down.lg`
+        right: 38%;
+      `}
     `}
     ${(props) =>
-      props.third &&
-      css`
-        top: 15%;
-        right: 23%;
+    props.third &&
+    css`
+      top: 15%;
+      right: 19%;
+      ${Down.lg`
+        right: 16%;
       `}
+    `}
     ${(props) =>
-      props.fourth &&
-      css`
-        top: 60%;
-        right: 63%;
+    props.fourth &&
+    css`
+      top: 60%;
+      right: 63%;
+      ${Down.lg`
+        right: 60%;
       `}
+    `}
   ${(props) =>
     props.fifth &&
     css`
       top: 60%;
-      right: 43%;
+      right: 41%;
+      ${Down.lg`
+        right: 38%;
+      `}
     `}
     ${(props) =>
-      props.sixth &&
-      css`
-        top: 60%;
-        right: 23%;
+    props.sixth &&
+    css`
+      top: 60%;
+      right: 19%;
+      ${Down.lg`
+        right: 16%;
       `}
+    `}
 `;
 
+const stagger = {
+  animate: {
+    transition: {
+      staggerChildren: 0.5,
+    },
+  },
+};
+
+const easing = [0.6, -0.05, 0.01, 0.99];
+
+const fadeInUp = {
+  initial: {
+    y: 300,
+    opacity: 0,
+    scale: 0,
+  },
+  animate: {
+    scale: 1,
+    y: 0,
+    opacity: 1,
+    rotate: 360,
+    transition: {
+      duration: 2,
+      ease: easing,
+      // repeat: Infinity,
+    },
+  },
+};
+
 const Home = () => {
-  console.log('Test');
+  const imgArray = [
+    { first: true, src: SnackImage },
+    { second: true, src: SnackImage },
+    { third: true, src: SnackImage },
+    { fourth: true, src: SnackImage },
+    { fifth: true, src: SnackImage },
+    { sixth: true, src: SnackImage },
+  ];
   return (
     <div>
       <Head>
@@ -192,43 +247,16 @@ const Home = () => {
               <ImageGrid container xs={12} md={8} justify="center" alignItems="center">
                 <LeftImageGrid container item md={7} xs={12}>
                   <SnackImageGrid container item xs={12}>
-                    <ImageCard>
-                      <SnackIMG
-                        src={SnackImage}
-                        first
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      />
-                      <SnackIMG
-                        src={SnackImage}
-                        second
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      />
-                      <SnackIMG
-                        src={SnackImage}
-                        third
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      />
-                      <SnackIMG
-                        src={SnackImage}
-                        fourth
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      />
-                      <SnackIMG
-                        src={SnackImage}
-                        fifth
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      />
-                      <SnackIMG
-                        src={SnackImage}
-                        sixth
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      />
+                    <ImageCard variants={stagger}>
+                      {imgArray.map((label) => (
+                        <SnackIMG
+                          key={label}
+                          {...label}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          variants={fadeInUp}
+                        />
+                      ))}
                     </ImageCard>
                   </SnackImageGrid>
                   <BoxImageGrid
@@ -242,14 +270,17 @@ const Home = () => {
                     <BoxIMG
                       src={Box}
                       alt="carboard box"
-                      initial={{ opacity: 0, x: 60, scale: 0.5 }}
-                      animate={{ opacity: 1, x: 0, scale: 1 }}
-                      transition={{ delay: 0.5 }}
+                      initial={{ opacity: 0, x: 60 }}
+                      animate={{ opacity: 1, x: 0 }}
                     />
                   </BoxImageGrid>
                 </LeftImageGrid>
                 <RightImageGrid container md={5} xs={12} alignItems="flex-start" justify="center">
-                  <LetterIMG src={LetterImage} />
+                  <LetterIMG
+                    src={LetterImage}
+                    initial={{ opacity: 0, x: 60 }}
+                    animate={{ opacity: 1, x: 0 }}
+                  />
                 </RightImageGrid>
               </ImageGrid>
               <DescriptionGrid container item md={4} xs={12} justify="center" alignItems="center">
