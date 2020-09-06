@@ -1,5 +1,5 @@
 import React from 'react';
-import Document, { Head, Main, NextScript } from 'next/document';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import { ServerStyleSheets } from '@material-ui/styles';
 import theme from '../utils/theme';
@@ -11,10 +11,12 @@ class MyDocument extends Document {
     const originalRenderPage = ctx.renderPage;
 
     try {
-      ctx.renderPage = () => originalRenderPage({
-        // eslint-disable-next-line max-len
-        enhanceApp: (App) => (props) => styledComponentsSheet.collectStyles(materialSheets.collect(<App {...props} />)),
-      });
+      ctx.renderPage = () =>
+        originalRenderPage({
+          // eslint-disable-next-line max-len
+          enhanceApp: (App) => (props) =>
+            styledComponentsSheet.collectStyles(materialSheets.collect(<App {...props} />)),
+        });
       const initialProps = await Document.getInitialProps(ctx);
       return {
         ...initialProps,
@@ -33,7 +35,7 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <html lang="en" dir="ltr">
+      <Html lang="en">
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
@@ -48,7 +50,7 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }
