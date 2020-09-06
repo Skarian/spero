@@ -32,10 +32,12 @@ const Grid = styled(GridBase)`
 const ImageGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
   height: 70vh;
+  min-height: 650px;
   padding-top: 25px;
   background-color: #def4ff;
   ${Down.md`
   height: 90vh;
+  min-height: 900px;
   padding-top: 50px;
 `}
 `;
@@ -113,6 +115,7 @@ const BoxIMG = styled(motion.img)`
 const DescriptionGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
   height: 70vh;
+  min-height: 650px;
   background-color: #def4ff;
   padding: 120px;
   ${Down.lg`
@@ -121,6 +124,7 @@ const DescriptionGrid = styled(GridBase)`
   ${Down.md`
         padding: 20px;
         height: 50vh;
+        min-height: 500px;
       `}
 `;
 const Card = styled(motion.div)`
