@@ -17,7 +17,7 @@ import { Title } from '../components/Elements';
 import Box from '../assets/box.svg';
 import SnackImage from '../public/images/goldfish.svg';
 import CustomNoteImg from '../public/images/letter-wide.svg';
-import { Down } from '../utils/breakpoints';
+import { Up, Down } from '../utils/breakpoints';
 import Tooltip from '../components/Tooltip';
 
 // Turns wireframes for grids on and off for debugging layout
@@ -44,11 +44,11 @@ const ImageGrid = styled(GridBase)`
 const ImagesTopGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
   height: 55%;
-  justify-content: center;
   ${Down.md`
+  justify-content: center;
   height: 70%;
 `};
-  ${Down.lg`
+  ${Up.md`
   justify-content: space-evenly
 `};
 `;
@@ -95,9 +95,15 @@ const CustomNoteGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
 `;
 const CustomNote = styled(motion.img)`
-  height: 100%;
-  max-height: 275px;
   cursor: pointer;
+  ${Down.lg`
+  max-width: 200px;
+   width: 100%;
+`};
+  ${Up.lg`
+  max-width: 350px;
+  width: 100%
+`};
 `;
 const ImagesBottomGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
@@ -107,8 +113,11 @@ const ImagesBottomGrid = styled(GridBase)`
 `}
 `;
 const BoxIMG = styled(motion.img)`
-  height: 80%;
+  width: 90%;
   z-index: 100;
+  ${Down.md`
+  : 30%;
+`}
 `;
 
 // Hero Description Styling
@@ -133,8 +142,14 @@ const Card = styled(motion.div)`
   border-radius: 32px;
 `;
 const Product = styled(Typography)`
-  &.MuiTypography-h4 {
+  &.MuiTypography-h3 {
     font-weight: 700;
+    ${Down.lg`
+        font-size: 2rem
+      `}
+    ${Down.lg`
+        font-size: 1.75rem
+      `}
   }
   padding-bottom: 35px;
 `;
@@ -149,8 +164,6 @@ const Description = styled(Typography)`
 `;
 const TagList = styled.div`
   padding-bottom: 45px;
-  ${Down.md`
-      `}
 `;
 const Tag = styled(Chip)`
   &.MuiChip-root {
@@ -164,6 +177,7 @@ const Tag = styled(Chip)`
         font-size: 11px;
         padding-right: 0px;
     padding-left: 0px;
+    height: 24px;
       `}
   }
 `;
@@ -229,12 +243,54 @@ const fadeInUp = {
 
 const Home = () => {
   const imgArray = [
-    { src: SnackImage, id: 1, label: 'Snack One' },
-    { src: SnackImage, id: 2, label: 'Snack Two' },
-    { src: SnackImage, id: 3, label: 'Snack Three' },
-    { src: SnackImage, id: 4, label: 'Snack Four' },
-    { src: SnackImage, id: 5, label: 'Snack Five' },
-    { src: SnackImage, id: 6, label: 'Snack Six' },
+    {
+      src: SnackImage,
+      id: 1,
+      label: {
+        title: 'Snack One',
+        description: 'This is a body of a snack description',
+      },
+    },
+    {
+      src: SnackImage,
+      id: 2,
+      label: {
+        title: 'Snack Two',
+        description: 'This is a body of a snack description',
+      },
+    },
+    {
+      src: SnackImage,
+      id: 3,
+      label: {
+        title: 'Snack Three',
+        description: 'This is a body of a snack description',
+      },
+    },
+    {
+      src: SnackImage,
+      id: 4,
+      label: {
+        title: 'Snack Four',
+        description: 'This is a body of a snack description',
+      },
+    },
+    {
+      src: SnackImage,
+      id: 5,
+      label: {
+        title: 'Snack Five',
+        description: 'This is a body of a snack description',
+      },
+    },
+    {
+      src: SnackImage,
+      id: 6,
+      label: {
+        title: 'Snack Six',
+        description: 'This is a body of a snack description',
+      },
+    },
   ];
   return (
     <div>
@@ -254,18 +310,18 @@ const Home = () => {
                   <SnackGrid container item xs={12} md={4} alignItems="flex-end" justify="center">
                     <ImageList variants={stagger}>
                       <Grid container>
-                        {imgArray.map((label) => (
+                        {imgArray.map((img) => (
                           <Grid
                             container
                             justify="center"
                             item
                             xs={4}
                             style={{ height: '50%' }}
-                            key={label.id}
+                            key={img.id}
                           >
-                            <Tooltip title={label.label} body="this is a description of a snack">
+                            <Tooltip title={img.label.title} body={img.label.description}>
                               <SnackIMG
-                                src={label.src}
+                                src={img.src}
                                 whileHover={{
                                   scale: 1.1,
                                 }}
@@ -340,7 +396,7 @@ const Home = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 }}
                 >
-                  <Product variant="h4" align="left">
+                  <Product variant="h3" align="left">
                     The "WFH" Care Package
                   </Product>
                   <Description variant="h5">
