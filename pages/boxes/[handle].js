@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { gql, useQuery } from '@apollo/client';
 import { motion } from 'framer-motion';
@@ -71,7 +72,20 @@ const Box = () => {
   const { loading, error, data } = useQuery(BOX_QUERY, {
     variables: { handle },
   });
-  console.log(`loading: ${loading}`);
+  let box;
+  // if (loading === false) {
+  //   console.log(data);
+  //   box = {
+  //     id: data.productByHandle.id,
+  //     description: data.productByHandle.description,
+  //     tags: data.productByHandle.tags,
+  //     title: data.productByHandle.title,
+  //     availableForSale: data.productByHandle.variants.edges[0].node.availableForSale,
+  //     comparePrice: data.productByHandle.variants.edges[0].node.compareAtPriceV2.amount,
+  //     price: data.productByHandle.variants.edges[0].node.priceV2.amount,
+  //   };
+  // }
+
   return (
     <div>
       <Head>
@@ -79,9 +93,30 @@ const Box = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout>
-          <Typography variant="h1">Hello</Typography>
-          {loading === false ? <h1>Loaded</h1> : null}
+        <Layout maxWidth="xl">
+          {loading === false ? (
+            <div>
+              {/* <h1>The id is {box.id}</h1>
+              <h1>The description is {box.description}</h1>
+              <h1>The title is ${box.title}</h1>
+              <h1>Is it available for sale? {box.availableForSale}</h1>
+              <h1>The old price is ${box.comparePrice}</h1>
+              <h1>The price is ${box.price}</h1> */}
+
+              <h1>The id is {data.productByHandle.id}</h1>
+              <h1>The description is {data.productByHandle.description}</h1>
+              <h1>The title is ${data.productByHandle.title}</h1>
+              <h1>
+                Is it available for sale?{' '}
+                {data.productByHandle.variants.edges[0].node.availableForSale}
+              </h1>
+              <h1>
+                The old price is{' '}
+                {data.productByHandle.variants.edges[0].node.compareAtPriceV2.amount}
+              </h1>
+              <h1>The price is {data.productByHandle.variants.edges[0].node.priceV2.amount}</h1>
+            </div>
+          ) : null}
         </Layout>
       </main>
     </div>

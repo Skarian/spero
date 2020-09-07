@@ -12,7 +12,7 @@ import {
   ListItemIcon,
   ListItemText,
   Hidden,
-  Container,
+  Container as ContainerBase,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
@@ -28,6 +28,13 @@ const Root = styled.div`
   padding-bottom: 72px;
 `;
 
+const Container = styled(ContainerBase)`
+  &.MuiContainer-maxWidthXl {
+    max-width: 1560px;
+    padding-top: 10px;
+  }
+`;
+
 const AppBar = styled(MuiAppBar)`
   &.MuiPaper-elevation1 {
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
@@ -41,7 +48,7 @@ const Toolbar = styled(MuiToolbar)`
 `;
 
 const Logo = styled.img`
-  height: 36px;
+  height: 40px;
   width: auto;
   &:hover {
     opacity: 0.7;
@@ -57,11 +64,12 @@ const btnGroupStyle = {
   borderRight: 'none',
   textTransform: 'none',
   backgroundColor: 'transparent',
+  paddingLeft: '40px',
 };
 
 const MenuText = styled.h1`
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 500;
   color: #000;
   opacity: 0.5;
   &:hover {
@@ -92,9 +100,9 @@ const Navbar = () => {
   // Pages Array
   const pages = [
     [0, 'Home', <HomeIcon />, '/boxes'],
-    [1, 'Jobs', <FindInPageIcon />, '/'],
-    [2, 'Trainer', <BuildIcon />, '/'],
-    [3, 'About', <CreateIcon />, '/'],
+    [1, 'Shop', <FindInPageIcon />, '/'],
+    [2, 'About', <BuildIcon />, '/'],
+    [3, 'Tracking', <CreateIcon />, '/'],
   ];
 
   // Side Drawer
@@ -114,7 +122,7 @@ const Navbar = () => {
   return (
     <Root>
       <AppBar position="fixed" color="inherit" elevation={isScrolling ? 1 : 0}>
-        <Container maxWidth="lg">
+        <Container maxWidth="xl">
           <Toolbar>
             <Drawer anchor="top" open={drawer} onClose={() => setDrawer(false)}>
               {sideDrawer}

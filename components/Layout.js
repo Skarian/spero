@@ -13,7 +13,7 @@ export default Layout;
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  maxWidth: PropTypes.bool,
+  maxWidth: PropTypes.string,
 };
 
 Layout.defaultProps = {

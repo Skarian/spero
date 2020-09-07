@@ -93,11 +93,11 @@ const Boxes = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout>
+        <Layout maxWidth="xl">
           <MainGrid container justify="center">
             <TitleGrid item xs={12}>
               <Title align="center" variant="h3">
-                Ready to Snack Boxes
+                Snackify Care Packages
               </Title>
             </TitleGrid>
             <Container maxWidth="lg">

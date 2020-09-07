@@ -49,9 +49,9 @@ const Tooltip = ({ title, body, children }) => {
       disableFocusListener
       disableTouchListener
       TransitionComponent={Fade}
-      TransitionProps={{ timeout: 300 }}
-      enterDelay={100}
-      leaveDelay={100}
+      TransitionProps={{ timeout: 600 }}
+      enterDelay={300}
+      leaveDelay={150}
     >
       {children}
     </StyledTooltip>

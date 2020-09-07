@@ -7,6 +7,7 @@ import {
   Tooltip as MuiTooltip,
   Fade,
   Zoom,
+  Container,
 } from '@material-ui/core';
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
@@ -34,7 +35,7 @@ const ImageGrid = styled(GridBase)`
   height: 70vh;
   min-height: 650px;
   padding-top: 25px;
-  background-color: #def4ff;
+  /* background-color: #def4ff; */
   ${Down.md`
   height: 90vh;
   min-height: 900px;
@@ -114,10 +115,8 @@ const ImagesBottomGrid = styled(GridBase)`
 `;
 const BoxIMG = styled(motion.img)`
   width: 90%;
+  max-width: 700px;
   z-index: 100;
-  ${Down.md`
-  : 30%;
-`}
 `;
 
 // Hero Description Styling
@@ -125,7 +124,7 @@ const DescriptionGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
   height: 70vh;
   min-height: 650px;
-  background-color: #def4ff;
+  /* background-color: #def4ff; */
   padding: 120px;
   ${Down.lg`
         padding: 50px;
@@ -174,10 +173,11 @@ const Tag = styled(Chip)`
     font-size: 18px;
     font-weight: 700;
     ${Down.md`
-        font-size: 11px;
+        font-size: 9px;
         padding-right: 0px;
-    padding-left: 0px;
-    height: 24px;
+        padding-left: 0px;
+        height: 24px;
+        margin-right: 5px;
       `}
   }
 `;
@@ -304,7 +304,7 @@ const Home = () => {
             The <mark>simplest</mark> way to send snacks. Period.
           </Title>
           <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }}>
-            <Grid container>
+            <Grid container style={{ background: '#def4ff' }}>
               <ImageGrid container item xs={12} md={6} justify="center" alignItems="center">
                 <ImagesTopGrid container item xs={12}>
                   <SnackGrid container item xs={12} md={4} alignItems="flex-end" justify="center">
