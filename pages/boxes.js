@@ -115,7 +115,7 @@ const Boxes = () => {
                         lg={4}
                         justify="space-around"
                       >
-                        <ProductCard box={box} />
+                        <ProductCard key={box.id} box={box} />
                       </ProductGrid>
                     ))
                   ) : (
