@@ -3,9 +3,7 @@ import { red } from '@material-ui/core/colors';
 import { StoreContext } from '../context/StoreContext';
 
 const Cart = () => {
-  const {
-    isCartOpen, checkout, removeProductFromCart, checkCoupon,
-  } = useContext(StoreContext);
+  const { isCartOpen, checkout, removeProductFromCart, checkCoupon } = useContext(StoreContext);
   const [coupon, setCoupon] = useState('');
   console.log(coupon);
 

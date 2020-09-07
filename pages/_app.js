@@ -8,15 +8,23 @@ import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ApolloProvider } from '@apollo/client';
+import { AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/router';
 import theme from '../utils/theme';
 import Navbar from '../components/Navbar';
 import { useApollo } from '../utils/apolloClient';
 import { StoreProvider } from '../context/StoreContext';
-import { AnimatePresence } from 'framer-motion';
+
+function handleExitComplete() {
+  if (typeof window !== 'undefined') {
+    window.scrollTo({ top: 0 });
+  }
+}
 
 export default function MyApp(props) {
-  const { Component, pageProps, router } = props;
+  const { Component, pageProps } = props;
   const apolloClient = useApollo(pageProps.initialApolloState);
+  const router = useRouter();
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -321,8 +329,7 @@ export default function MyApp(props) {
         <ApolloProvider client={apolloClient}>
           <StoreProvider>
             <Navbar />
-            {/* <AnimatePresence exitBeforeEnter initial={false}> */}
-            <AnimatePresence exitBeforeEnter>
+            <AnimatePresence exitBeforeEnter onExitComplete={handleExitComplete}>
               <Component {...pageProps} key={router.route} />
             </AnimatePresence>
           </StoreProvider>

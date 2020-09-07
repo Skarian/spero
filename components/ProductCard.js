@@ -22,43 +22,22 @@ const Card = styled(motion.div)`
   /* background-color: #f0f5ff; */
   border-radius: 25px;
   max-width: 400px;
-  height: 325px;
+  height: 350px;
 
   cursor: pointer;
-  /* &:hover {
+  &:hover {
     box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
-    transition: box-shadow 1s ease-in-out;
-  } */
+    transition: box-shadow 0.3s ease-in-out;
+  }
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0);
   -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-  &::after {
-    content: '';
-    border-radius: 25px;
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-  }
-  &:hover {
-    -webkit-transform: scale(1.05, 1.05);
-    transform: scale(1.05, 1.05);
-  }
-  &:hover::after {
-    opacity: 1;
-  }
 `;
 
 const Image = styled(motion.img)`
   width: 100%;
   border-radius: 25px;
-  padding-bottom: 20px;
+  padding-bottom: 25px;
   padding-top: 10px;
 `;
 
@@ -116,7 +95,11 @@ const ProductCard = ({ box }) => {
     // <DynamicLink href={`/boxes/${handle}`}>
     // <Link href={nextLinkProps.href} as={nextLinkProps.as}>
     <Link href="/boxes/[handle]" as={`/boxes/${handle}`}>
-      <motion.div whileTap={{ scale: 0.95 }} variants={fadeInUp}>
+      <motion.div
+        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.05, borderRadius: '50px' }}
+        variants={fadeInUp}
+      >
         <Card>
           <Grid item>
             <Title align="center" variant="h6">
@@ -132,7 +115,9 @@ const ProductCard = ({ box }) => {
             />
           </Grid>
           <Grid container item justify="center">
-            {tags.length > 0 ? tags.map((tag) => <TagChip size="small" label={tag} />) : null}
+            {tags.length > 0
+              ? tags.map((tag) => <TagChip key={tag} size="small" label={tag} />)
+              : null}
           </Grid>
         </Card>
       </motion.div>
