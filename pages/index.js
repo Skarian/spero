@@ -1,141 +1,202 @@
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { gql, useQuery } from '@apollo/client';
-import React, { useState } from 'react';
-import { Container, Grid as GridBase } from '@material-ui/core';
-import { motion } from 'framer-motion';
-import styled, { css } from 'styled-components';
-import { StoreContext } from '../context/StoreContext';
+import { Container, Grid as GridBase, Button as ButtonBase } from '@material-ui/core';
+import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
+import { gql } from '@apollo/client';
+import { OrderTypeQuestion, CustomBoxQuestion, WhoQuestion } from '../components/Questions';
+import ProgressBar from '../components/ProgressBar';
+import { Down } from '../utils/breakpoints';
 import { initializeApollo } from '../utils/apolloClient';
 import Layout from '../components/Layout';
-import ProductCard from '../components/ProductCard';
-import { Title } from '../components/Elements';
 
 const wireframes = false;
 
-const Body = styled.div``;
-
 const MainGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
-`;
-const TitleGrid = styled(GridBase)`
-  border: ${wireframes ? '1px solid red' : 'none'};
-`;
-const ProductWrapperGrid = styled(GridBase)`
-  border: ${wireframes ? '1px solid red' : 'none'};
-`;
-const ProductGrid = styled(GridBase)`
-  border: ${wireframes ? '1px solid red' : 'none'};
+  height: 100%;
+  ${Down.lg`
+  padding-left: 5vw;
+  padding-right: 5vw;
+`};
 `;
 
-const BOXES_QUERY = gql`
-  query Boxes {
-    collectionByHandle(handle: "snackify-boxes") {
-      id
-      products(first: 100) {
-        edges {
-          node {
-            title
-            tags
-            variants(first: 1) {
-              edges {
-                node {
-                  id
-                  image {
-                    originalSrc
-                  }
-                  priceV2 {
-                    amount
-                  }
-                  compareAtPriceV2 {
-                    amount
-                  }
-                }
-              }
-            }
-            description
-            handle
-          }
-        }
-      }
-    }
+const HeroUIGrid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+  padding-bottom: 5rem;
+`;
+
+const ProgressGrid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+  padding-top: 5rem;
+`;
+const QuestionGrid = styled(GridBase)`
+  border: ${wireframes ? '1px solid red' : 'none'};
+  padding-bottom: 5rem;
+`;
+
+const Hero = styled.div`
+  background-color: #f0f5ff;
+`;
+
+const NextButton = styled(ButtonBase)`
+  &.MuiButton-root {
+    font-weight: 500;
+  }
+  &.MuiButton-containedPrimary {
+    color: white;
   }
 `;
-
-const stagger = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
 
 const Home = () => {
-  const { loading, error, data } = useQuery(BOXES_QUERY);
-  let boxData;
-  if (loading === false) {
-    boxData = data.collectionByHandle.products.edges.map((box) => ({
-      title: box.node.title,
-      description: box.node.description,
-      handle: box.node.handle,
-      tags: box.node.tags,
-      id: box.node.variants.edges[0].node.id,
-      image: box.node.variants.edges[0].node.image.originalSrc,
-      price: box.node.variants.edges[0].node.priceV2.amount,
-      comparePrice: box.node.variants.edges[0].node.compareAtPriceV2.amount,
-    }));
-    console.log(boxData);
-  }
+  const [progress, setProgress] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState({
+    who: true,
+    type: false,
+    customBox: false,
+    customization: false,
+    details: false,
+  });
+
+  const { type, customBox, customization, details, who } = currentQuestion;
+  useEffect(() => {
+    if (who) {
+      setProgress(0);
+    } else if (customBox) {
+      setProgress(1);
+    }
+  }, [currentQuestion]);
+
+  const [selections, setSelections] = useState({
+    one: {
+      selectedOptionContent: '',
+      selectedOptionID: 0,
+    },
+    two: {
+      selectedOptionContent: '',
+      selectedOptionID: 0,
+    },
+    three: {
+      selectedOptionContent: '',
+      selectedOptionID: 0,
+    },
+  });
+
+  console.log(selections);
+  console.log(currentQuestion);
 
   return (
     <div>
       <Head>
-        <title>Snackify, the easiest way to send snacks.</title>
+        <title>Snackify, care packages for teams.</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Layout maxWidth="xl">
-          <MainGrid container justify="center">
-            <TitleGrid item xs={12}>
-              <Title align="center" variant="h3">
-                Snackify Care Packages
-              </Title>
-            </TitleGrid>
-            <Container maxWidth="lg">
-              <motion.div variants={stagger}>
-                <ProductWrapperGrid container spacing={3}>
-                  {loading === false ? (
-                    boxData.map((box) => (
-                      <ProductGrid
-                        key={box.id}
-                        container
-                        item
-                        xs={12}
-                        sm={12}
-                        md={6}
-                        lg={4}
-                        justify="space-around"
+        <Layout>
+          <Hero>
+            <Container maxWidth="lg" style={{ height: '100%' }}>
+              <MainGrid container item alignContent="center">
+                <ProgressGrid container item>
+                  {/* <ProgressBar value={progress} /> */}
+                  <ProgressBar stepNumber={progress} />
+                </ProgressGrid>
+
+                <QuestionGrid container item>
+                  <AnimatePresence exitBeforeEnter initial={false}>
+                    {who && (
+                      <Container maxWidth="lg" style={{ height: '100%' }}>
+                        <motion.div
+                          initial={{ opacity: 0, x: 1000 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -1000 }}
+                          key={1}
+                        >
+                          <WhoQuestion
+                            questionID="one"
+                            stateHandler={setSelections}
+                            state={selections}
+                            changeQuestion={setCurrentQuestion}
+                          />
+                        </motion.div>
+                      </Container>
+                    )}
+                    {type && (
+                      <motion.div
+                        initial={{ opacity: 0, x: 1000 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -1000 }}
+                        key={3}
                       >
-                        <ProductCard key={box.id} box={box} />
-                      </ProductGrid>
-                    ))
-                  ) : (
-                    <h1>Loading</h1>
-                  )}
-                </ProductWrapperGrid>
-              </motion.div>
+                        <OrderTypeQuestion
+                          questionID="three"
+                          stateHandler={setSelections}
+                          state={selections}
+                        />
+                      </motion.div>
+                    )}
+                    {customBox && (
+                      <motion.div
+                        initial={{ opacity: 0, x: 1000 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -1000 }}
+                        key={2}
+                        style={{ width: '100%' }}
+                      >
+                        <CustomBoxQuestion
+                          questionID="two"
+                          stateHandler={setSelections}
+                          state={selections}
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </QuestionGrid>
+                {/* <HeroUIGrid container alignContent="center" justify="center">
+                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                    <NextButton
+                      variant="contained"
+                      color="primary"
+                      style={{ fontSize: '1.5rem' }}
+                      onClick={() => {
+                        setCurrentQuestion((prevProps) => ({
+                          ...prevProps,
+                          type: false,
+                          who: false,
+                          customBox: true,
+                        }));
+                      }}
+                    >
+                      Next
+                    </NextButton>
+                  </motion.div>
+                </HeroUIGrid> */}
+              </MainGrid>
             </Container>
-          </MainGrid>
+          </Hero>
         </Layout>
       </main>
     </div>
   );
 };
 
+const query = gql`
+  query ShopInfo {
+    shop {
+      name
+      primaryDomain {
+        url
+        host
+      }
+    }
+  }
+`;
+
 export async function getStaticProps() {
   const apolloClient = initializeApollo();
 
   await apolloClient.query({
-    query: BOXES_QUERY,
+    query,
+    // variables: allPostsQueryVars,
   });
 
   return {

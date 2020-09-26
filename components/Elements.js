@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Typography } from '@material-ui/core';
 
 export const Title = styled(Typography)`
@@ -7,6 +7,21 @@ export const Title = styled(Typography)`
     font-weight: 1000;
     margin-block-start: 1em;
     margin-block-end: 1em;
+    ${(props) =>
+      props.marginTop &&
+      css`
+        margin-block-start: ${props.marginTop};
+      `}
+  }
+  &.MuiTypography-h4 {
+    font-weight: 750;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    ${(props) =>
+      props.marginTop &&
+      css`
+        margin-block-start: ${props.marginTop};
+      `}
   }
   mark {
     background: linear-gradient(
