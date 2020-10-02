@@ -1,3 +1,4 @@
+// Example below
 // import { Up, Down } from "../src/breakpoints.js"
 // const DescriptionBlock = styled.div`
 //   ${Down.md`
@@ -8,6 +9,7 @@
 // `}
 
 import { css } from 'styled-components';
+import { useState, useEffect } from 'react';
 
 const size = {
   xs: 0,
@@ -34,3 +36,32 @@ export const Down = Object.keys(size).reduce((acc, label) => {
   `;
   return acc;
 }, {});
+
+export const useViewport = () => {
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    setWidth(window.innerWidth);
+    const handleWindowResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+    return () => window.removeEventListener('resize', handleWindowResize);
+  }, []);
+
+  let currentSize;
+
+  if (width >= size.xl) {
+    currentSize = 'xl';
+  } else if (width >= size.lg) {
+    currentSize = 'lg';
+  } else if (width >= size.md) {
+    currentSize = 'md';
+  } else if (width >= size.sm) {
+    currentSize = 'sm';
+  } else {
+    currentSize = 'xs';
+  }
+  return { currentSize };
+};

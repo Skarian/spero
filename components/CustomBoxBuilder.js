@@ -1,9 +1,22 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
-import { Grid, Typography, Container } from '@material-ui/core';
-import { Title } from './Elements';
+import {
+  Grid,
+  CircularProgress,
+  Fab as FabBase,
+  SwipeableDrawer,
+  Typography,
+} from '@material-ui/core';
+import styled, { css } from 'styled-components';
 import { gql, useQuery } from '@apollo/client';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { Title } from './Elements';
 import SnackCard from './CustomBoxBuilder/SnackCard';
+import { Down } from '../utils/breakpoints';
+import EditIconBase from '@material-ui/icons/Edit';
+import Stripes from '../public/images/stripes.png';
+import ShoppingBar from '../components/CustomBoxBuilder/ShoppingBar';
 
 const SNACK_QUERY = gql`
   query Snacks {
@@ -65,17 +78,49 @@ const CustomBoxBuilder = ({ options, stateHandler, state, questionID, changeQues
       },
     },
   };
+
+  // Drawer State Hook
+  const [drawer, setDrawer] = useState(false);
+
+  // Side Drawer
+  const sideDrawer = (
+    <div role="presentation" onClick={() => setDrawer(false)} onKeyDown={() => setDrawer(false)}>
+      <div style={{ width: 500 }}>
+        <h1>Hello</h1>
+      </div>
+    </div>
+  );
+
   return (
-    <motion.div>
+    <motion.div style={{ width: '100%' }}>
       <Grid container item xs={12}>
-        <Title variant="h4">Snacks</Title>
+        <ShoppingBar handleDrawer={setDrawer} />
+      </Grid>
+      <Grid
+        container
+        item
+        xs={12}
+        justify="space-between"
+        alignItems="center"
+        style={{ paddingBottom: '25px' }}
+      >
+        <Title variant="h4" style={{ paddingBottom: '0px' }}>
+          Snacks
+        </Title>
+        <SwipeableDrawer anchor="right" open={drawer} onClose={() => setDrawer(false)}>
+          {sideDrawer}
+        </SwipeableDrawer>
       </Grid>
       <motion.div variants={stagger}>
-        <Grid container spacing={3}>
+        <Grid container spacing={5}>
           {loading === false ? (
             boxData.map((box) => <SnackCard key={box.id} snack={box} />)
           ) : (
-            <h1>Loading</h1>
+            <Grid container item xs={12} justify="center">
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                <CircularProgress size={100} />
+              </motion.div>
+            </Grid>
           )}
         </Grid>
       </motion.div>

@@ -12,7 +12,7 @@ const ImageSelectGroup = ({ options, stateHandler, state, questionID, changeQues
     },
   };
   return (
-    <motion.div variants={stagger}>
+    <motion.div variants={stagger} style={{ paddingTop: '2em' }}>
       <Grid container>
         {options.map((option) => {
           let selectionBool = false;

@@ -12,6 +12,8 @@ import {
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useSnackbar } from 'notistack';
+import SnackDialog from './SnackDialog';
 
 // Colors source: https://coolors.co/ffadad-ffd6a5-fdffb6-caffbf-9bf6ff-a0c4ff-bdb2ff-ffc6ff-fffffc
 const tagColorPicker = (color) => {
@@ -39,6 +41,7 @@ console.log(tagColorPicker('Vegan'));
 const Image = styled.img`
   height: 300px;
   width: auto;
+  cursor: pointer;
 `;
 
 const Card = styled(CardBase)`
@@ -102,33 +105,27 @@ const TagContainer = styled.div`
 `;
 
 const SnackCard = ({ snack }) => {
+  const [open, setOpen] = useState(false);
   const easing = [0.6, -0.05, 0.01, 0.99];
-
-  // const fadeInUp = {
-  //   initial: {
-  //     y: 60,
-  //     opacity: 0,
-  //   },
-  //   animate: {
-  //     y: 0,
-  //     opacity: 1,
-  //     transition: {
-  //       duration: 0.6,
-  //       ease: easing,
-  //     },
-  //   },
-  // };
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [ref, inView] = useInView({
-    rootMargin: '-100px 0px',
     triggerOnce: false,
   });
 
   const { title, description, handle, tags, id, image, price, available, vendor } = snack;
+  const capitalizedTitle = title
+    .toLowerCase()
+    .split(' ')
+    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+    .join(' ');
+  const logElement = (id) => {
+    console.log(id);
+  };
   return (
     <Grid container item xl={3} lg={4} md={6} sm={6} justify="center">
       <motion.div
         whileHover={{
-          scale: 1.1,
+          scale: 1.05,
         }}
         ref={ref}
         initial={{
@@ -144,17 +141,19 @@ const SnackCard = ({ snack }) => {
           ease: easing,
         }}
       >
-        <Card elevation={1}>
+        <Card
+          elevation={1}
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            setOpen(true);
+          }}
+        >
           <ImageGrid container item justify="center">
             <Image src={image} />
           </ImageGrid>
           <CardContent>
             <Title variant="h6" noWrap="true">
-              {title
-                .toLowerCase()
-                .split(' ')
-                .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-                .join(' ')}
+              {capitalizedTitle}
             </Title>
             <Description variant="body2" color="textSecondary" component="p" gutterbottom>
               {vendor}
@@ -172,12 +171,23 @@ const SnackCard = ({ snack }) => {
                 : null}
             </TagContainer>
             <Grid container item justify="center">
-              <BuyButton variant="outlined" color="primary" align="">
+              <BuyButton
+                id="button"
+                variant="outlined"
+                color="primary"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  enqueueSnackbar(`Added ${capitalizedTitle} to your care package`, {
+                    variant: 'success',
+                  });
+                }}
+              >
                 Add
               </BuyButton>
             </Grid>
           </CardContent>
         </Card>
+        <SnackDialog setOpen={setOpen} open={open} />
       </motion.div>
     </Grid>
   );

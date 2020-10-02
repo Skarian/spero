@@ -29,6 +29,9 @@ const HeroUIGrid = styled(GridBase)`
 const ProgressGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
   padding-top: 5rem;
+  ${Down.sm`
+  padding-top: 1rem;
+`}
 `;
 const QuestionGrid = styled(GridBase)`
   border: ${wireframes ? '1px solid red' : 'none'};
@@ -97,7 +100,6 @@ const Home = () => {
             <Container maxWidth="lg" style={{ height: '100%' }}>
               <MainGrid container item alignContent="center">
                 <ProgressGrid container item>
-                  {/* <ProgressBar value={progress} /> */}
                   <ProgressBar stepNumber={progress} />
                 </ProgressGrid>
 

@@ -6,7 +6,6 @@ export const Title = styled(Typography)`
   &.MuiTypography-h3 {
     font-weight: 1000;
     margin-block-start: 1em;
-    margin-block-end: 1em;
     ${(props) =>
       props.marginTop &&
       css`

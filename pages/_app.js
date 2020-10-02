@@ -14,6 +14,7 @@ import theme from '../utils/theme';
 import Navbar from '../components/Navbar';
 import { useApollo } from '../utils/apolloClient';
 import { StoreProvider } from '../context/StoreContext';
+import { SnackbarProvider } from 'notistack';
 
 function handleExitComplete() {
   if (typeof window !== 'undefined') {
@@ -327,12 +328,14 @@ export default function MyApp(props) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <ApolloProvider client={apolloClient}>
-          <StoreProvider>
-            <Navbar />
-            <AnimatePresence exitBeforeEnter onExitComplete={handleExitComplete}>
-              <Component {...pageProps} key={router.route} />
-            </AnimatePresence>
-          </StoreProvider>
+          <SnackbarProvider maxSnack={3}>
+            <StoreProvider>
+              <Navbar />
+              <AnimatePresence exitBeforeEnter onExitComplete={handleExitComplete}>
+                <Component {...pageProps} key={router.route} />
+              </AnimatePresence>
+            </StoreProvider>
+          </SnackbarProvider>
         </ApolloProvider>
       </ThemeProvider>
     </>
