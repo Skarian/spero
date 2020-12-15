@@ -4,15 +4,14 @@ import {
   AppBar as MuiAppBar,
   Toolbar as MuiToolbar,
   IconButton,
-  Button,
-  ButtonGroup,
+  Button as MuiButton,
+  ButtonGroup as MuiButtonGroup,
   Drawer,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Hidden,
-  Container as ContainerBase,
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
@@ -21,18 +20,12 @@ import FindInPageIcon from '@material-ui/icons/FindInPage';
 import CreateIcon from '@material-ui/icons/Create';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { useViewportScroll } from 'framer-motion';
-import LogoImg from '../public/images/logo-light.png';
+import { useViewportScroll, motion, AnimateSharedLayout } from 'framer-motion';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 const Root = styled.div`
-  padding-bottom: 72px;
-`;
-
-const Container = styled(ContainerBase)`
-  &.MuiContainer-maxWidthXl {
-    max-width: 1560px;
-    padding-top: 10px;
-  }
+  margin-bottom: 72px;
 `;
 
 const AppBar = styled(MuiAppBar)`
@@ -47,9 +40,9 @@ const Toolbar = styled(MuiToolbar)`
   justify-content: space-between;
 `;
 
-const Logo = styled.img`
+const Logo = styled.div`
   height: 40px;
-  width: auto;
+  width: 163px;
   &:hover {
     opacity: 0.7;
   }
@@ -59,13 +52,15 @@ const MenuButton = styled(IconButton)`
   fill: rgba(0, 0, 0, 0.7);
 `;
 
-// Inline Styling Override
-const btnGroupStyle = {
-  borderRight: 'none',
-  textTransform: 'none',
-  backgroundColor: 'transparent',
-  paddingLeft: '40px',
-};
+const ButtonGroup = styled(MuiButtonGroup)`
+  .MuiButtonGroup-groupedTextHorizontal:not(:last-child) {
+    border-right: none;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+`;
+
+const Button = styled(MuiButton)``;
 
 const MenuText = styled.h1`
   font-size: 1.3rem;
@@ -82,8 +77,19 @@ const MenuText = styled.h1`
   }
 `;
 
+const Underline = styled(motion.div)`
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  border-bottom: 5px solid lightgreen;
+  border-radius: 0%;
+`;
+
 // Navbar Component Initialization | Default Export
 const Navbar = () => {
+  const router = useRouter();
   const { scrollY } = useViewportScroll();
 
   const [isScrolling, setIsScrolling] = useState(false);
@@ -100,9 +106,9 @@ const Navbar = () => {
   // Pages Array
   const pages = [
     [0, 'Home', <HomeIcon />, '/'],
-    [1, 'Shop', <FindInPageIcon />, '/'],
-    [2, 'About', <BuildIcon />, '/'],
-    [3, 'Tracking', <CreateIcon />, '/'],
+    [1, 'Shop', <FindInPageIcon />, '/shop'],
+    [2, 'About', <BuildIcon />, '/about'],
+    [3, 'Tracking', <CreateIcon />, '/tracking'],
   ];
 
   // Side Drawer
@@ -119,37 +125,66 @@ const Navbar = () => {
     </div>
   );
 
+  // Underline State Hook
+  const [underline, setUnderline] = useState(0);
+
   return (
     <Root>
       <AppBar position="fixed" color="inherit" elevation={isScrolling ? 1 : 0}>
-        <Container maxWidth="xl">
-          <Toolbar>
-            <Drawer anchor="top" open={drawer} onClose={() => setDrawer(false)}>
-              {sideDrawer}
-            </Drawer>
+        <Toolbar>
+          <Drawer anchor="top" open={drawer} onClose={() => setDrawer(false)}>
+            {sideDrawer}
+          </Drawer>
 
-            <Link href="/">
-              <Logo src={LogoImg} />
-            </Link>
-            <Hidden xsDown>
-              <ButtonGroup disableRipple variant="text" orientation="horizontal">
+          <Link href="/">
+            <Logo>
+              <Image
+                src="/images/logo.png"
+                alt="Spero logo, a small green bird"
+                layout="responsive"
+                width={253}
+                height={62}
+              />
+            </Logo>
+          </Link>
+          <Hidden smDown>
+            <AnimateSharedLayout>
+              <ButtonGroup variant="text" orientation="horizontal">
                 {pages.map((page) => (
-                  <Button disableFocusRipple key={page[0]} style={btnGroupStyle}>
+                  <Button
+                    disableFocusRipple
+                    key={page[0]}
+                    onClick={() => {
+                      setUnderline(page[0]);
+                    }}
+                  >
                     <Link href={`${page[3]}`}>
                       <MenuText>{page[1]}</MenuText>
                     </Link>
+                    {/* {underline === page[0] && (
+                      <Underline
+                        layoutId="outline"
+                        transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                      />
+                    )} */}
+                    {router.pathname === page[3] && (
+                      <Underline
+                        layoutId="outline"
+                        transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                      />
+                    )}
                   </Button>
                 ))}
               </ButtonGroup>
-            </Hidden>
+            </AnimateSharedLayout>
+          </Hidden>
 
-            <Hidden smUp>
-              <MenuButton edge="end" aria-label="menu" onClick={() => setDrawer(true)}>
-                <MenuIcon />
-              </MenuButton>
-            </Hidden>
-          </Toolbar>
-        </Container>
+          <Hidden mdUp>
+            <MenuButton edge="end" aria-label="menu" onClick={() => setDrawer(true)}>
+              <MenuIcon />
+            </MenuButton>
+          </Hidden>
+        </Toolbar>
       </AppBar>
     </Root>
   );

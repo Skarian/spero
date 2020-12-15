@@ -1,11 +1,21 @@
 import Head from 'next/head';
-import { Container, Grid as GridBase } from '@material-ui/core';
+import {
+  Container,
+  Grid as GridBase,
+  Card,
+  Button,
+  CardContent,
+  Typography as Text,
+} from '@material-ui/core';
 import styled from 'styled-components';
 import { gql } from '@apollo/client';
 import Image from 'next/image';
 import { Down } from '../utils/breakpoints';
 import { initializeApollo } from '../utils/apolloClient';
 import Layout from '../components/Layout';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+
 const wireframes = false;
 
 const MainGrid = styled(GridBase)`
@@ -17,7 +27,11 @@ const MainGrid = styled(GridBase)`
 `};
 `;
 
-const Home = () => {
+const Grid = styled(GridBase)``;
+
+const Shop = () => {
+  const [horizontal, setHorizontal] = useState(true);
+
   return (
     <div>
       <Head>
@@ -26,13 +40,26 @@ const Home = () => {
       </Head>
       <main>
         <Layout>
-          <div>
-            <Container maxWidth="lg">
-              <MainGrid container item alignContent="center">
-                Hello
-              </MainGrid>
-            </Container>
-          </div>
+          <Button
+            onClick={() => {
+              setHorizontal(!horizontal);
+            }}
+          >
+            Change!
+          </Button>
+          <Grid container spacing={5}>
+            {Array.from(Array(200), (e, i) => (
+              <Grid container item key={i} xs={2} justify={horizontal ? 'center' : 'flex-start'}>
+                <motion.div layout>
+                  <Card>
+                    <CardContent>
+                      <Text align="center">{i}</Text>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </Grid>
+            ))}
+          </Grid>
         </Layout>
       </main>
     </div>
@@ -66,4 +93,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Home;
+export default Shop;

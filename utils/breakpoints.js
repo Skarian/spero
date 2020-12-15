@@ -10,14 +10,16 @@
 
 import { css } from 'styled-components';
 import { useState, useEffect } from 'react';
+import theme from '../utils/theme';
 
-const size = {
-  xs: 0,
-  sm: 600,
-  md: 960,
-  lg: 1280,
-  xl: 1920,
-};
+// const size = {
+//   xs: 0,
+//   sm: 600,
+//   md: 960,
+//   lg: 1280,
+//   xl: 1920,
+// };
+const size = theme.breakpoints.values;
 
 export const Up = Object.keys(size).reduce((acc, label) => {
   acc[label] = (...args) => css`
